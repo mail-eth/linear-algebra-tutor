@@ -86,7 +86,7 @@ def format_matrix(m):
     return [[format_number(m[i][j]) for j in range(len(m[i]))] for i in range(len(m))]
 
 
-# Lesson data - Indonesian
+# Lesson data - Indonesian (Comprehensive)
 LESSONS = {
     'vectors': {
         'title': '📐 Vektor',
@@ -94,8 +94,9 @@ LESSONS = {
             {'id': 'what-is-vector', 'title': 'Apa itu Vektor?'},
             {'id': 'vector-operations', 'title': 'Operasi Vektor'},
             {'id': 'dot-product', 'title': 'Produk Titik (Dot Product)'},
-            {'id': 'magnitude', 'title': 'Panjang & Normalisasi'},
             {'id': 'cross-product', 'title': 'Produk Silang (Cross Product)'},
+            {'id': 'magnitude', 'title': 'Panjang & Normalisasi'},
+            {'id': 'linear-independence', 'title': 'Kemandirian Linear'},
         ]
     },
     'matrices': {
@@ -107,6 +108,7 @@ LESSONS = {
             {'id': 'determinant', 'title': 'Determinan'},
             {'id': 'inverse', 'title': 'Invers Matriks'},
             {'id': 'rank', 'title': 'Rank Matriks'},
+            {'id': 'special-matrices', 'title': 'Matriks Khusus'},
         ]
     },
     'systems': {
@@ -117,6 +119,27 @@ LESSONS = {
             {'id': 'elimination', 'title': 'Metode Eliminasi'},
             {'id': 'gaussian', 'title': 'Eliminasi Gauss'},
             {'id': 'cramers-rule', 'title': 'Aturan Cramer'},
+            {'id': 'homogeneous', 'title': 'Sistem Homogen'},
+        ]
+    },
+    'vector-spaces': {
+        'title': '📏 Ruang Vektor',
+        'topics': [
+            {'id': 'what-is-vector-space', 'title': 'Apa itu Ruang Vektor?'},
+            {'id': 'basis-dimension', 'title': 'Basis & Dimensi'},
+            {'id': 'column-row-space', 'title': 'Ruang Kolom & Baris'},
+            {'id': 'null-space', 'title': 'Ruang Nol (Null Space)'},
+            {'id': 'subspaces', 'title': 'Subruang'},
+        ]
+    },
+    'transformations': {
+        'title': '🔄 Transformasi Linear',
+        'topics': [
+            {'id': 'what-is-transformation', 'title': 'Apa itu Transformasi Linear?'},
+            {'id': 'transformation-matrix', 'title': 'Matriks Transformasi'},
+            {'id': 'rotation-scaling', 'title': 'Rotasi & Skala'},
+            {'id': 'projection', 'title': 'Proyeksi'},
+            {'id': 'kernel-image', 'title': 'Kernel & Image'},
         ]
     },
     'eigenvalues': {
@@ -127,6 +150,24 @@ LESSONS = {
             {'id': 'finding-eigenvectors', 'title': 'Mencari Vektor Eigen'},
             {'id': 'verification', 'title': 'Verifikasi Nilai Eigen'},
             {'id': 'diagonalization', 'title': 'Diagonalisasi Matriks'},
+        ]
+    },
+    'orthogonality': {
+        'title': '⊥ Ortogonalitas',
+        'topics': [
+            {'id': 'what-is-orthogonal', 'title': 'Apa itu Ortogonal?'},
+            {'id': 'gram-schmidt', 'title': 'Proses Gram-Schmidt'},
+            {'id': 'orthogonal-projection', 'title': 'Proyeksi Ortogonal'},
+            {'id': 'least-squares', 'title': 'Metode Kuadrat Terkecil'},
+        ]
+    },
+    'decomposition': {
+        'title': '🧩 Dekomposisi Matriks',
+        'topics': [
+            {'id': 'lu-decomposition', 'title': 'Dekomposisi LU'},
+            {'id': 'qr-decomposition', 'title': 'Dekomposisi QR'},
+            {'id': 'svd', 'title': 'Dekomposisi Nilai Singular (SVD)'},
+            {'id': 'applications', 'title': 'Aplikasi Aljabar Linear'},
         ]
     }
 }

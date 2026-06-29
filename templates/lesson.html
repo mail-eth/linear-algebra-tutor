@@ -898,6 +898,872 @@ cx + dy = f</code></pre>
 <p>$$P = \\begin{bmatrix} 1 & 1 \\\\ 0 & -1 \\end{bmatrix}, D = \\begin{bmatrix} 3 & 0 \\\\ 0 & 2 \\end{bmatrix}$$</p>`
                     }
                 ]
+            },
+
+            // KEAMANDIRIAN LINEAR
+            'linear-independence': {
+                title: 'Kemandirian Linear',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Kemandirian Linear?',
+                        content: `<p>Sekumpulan vektor <strong>linear independen</strong> (kemandirian linear) jika tidak ada vektor yang bisa ditulis sebagai kombinasi linear dari vektor lainnya.</p>
+
+<h4>Definisi Formal:</h4>
+<p>Vektor $v_1, v_2, ..., v_n$ linear independen jika:</p>
+<p>$$c_1 v_1 + c_2 v_2 + ... + c_n v_n = 0$$</p>
+<p>Hanya memiliki solusi trivial: $c_1 = c_2 = ... = c_n = 0$</p>
+
+<h4>Jika Linear Dependen:</h4>
+<p>Ada skalar $c_i$ yang tidak semua nol sehingga:</p>
+<p>$$c_1 v_1 + c_2 v_2 + ... + c_n v_n = 0$$</p>
+
+<h4>Contoh:</h4>
+<ul>
+<li>$v_1 = [1, 0]$, $v_2 = [0, 1]$ → <strong>Linear independen</strong></li>
+<li>$v_1 = [1, 2]$, $v_2 = [2, 4]$ → <strong>Linear dependen</strong> ($v_2 = 2v_1$)</li>
+</ul>
+
+<h4>Cara Memeriksa:</h4>
+<ol>
+<li>Buat matriks dengan vektor-vektor sebagai kolom</li>
+<li>Hitung determinan (untuk matriks persegi)</li>
+<li>Jika det ≠ 0 → linear independen</li>
+<li>Atau gunakan eliminasi Gauss → rank = jumlah vektor → independen</li>
+</ol>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menentukan basis ruang vektor</li>
+<li>Memeriksa apakah sistem punya solusi unik</li>
+<li>Mencari dimensi ruang vektor</li>
+</ul>`
+                    }
+                ]
+            },
+
+            // MATRIKS KHUSUS
+            'special-matrices': {
+                title: 'Matriks Khusus',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Jenis-jenis Matriks Khusus',
+                        content: `<h4>1. Matriks Identitas (I)</h4>
+<p>Matriks diagonal dengan semua elemen diagonal = 1.</p>
+<p>$$I = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}$$</p>
+<p>Sifat: $AI = IA = A$</p>
+
+<h4>2. Matriks Diagonal</h4>
+<p>Hanya elemen diagonal yang ≠ 0.</p>
+<p>$$D = \\begin{bmatrix} d_1 & 0 & 0 \\\\ 0 & d_2 & 0 \\\\ 0 & 0 & d_3 \\end{bmatrix}$$</p>
+<p>Sifat: Mudah dihitung determinan dan inversnya.</p>
+
+<h4>3. Matriks Simetris</h4>
+<p>$A = A^T$ (sama dengan transpose-nya).</p>
+<p>$$S = \\begin{bmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 5 \\\\ 3 & 5 & 6 \\end{bmatrix}$$</p>
+<p>Sifat: Nilai eigen selalu real.</p>
+
+<h4>4. Matriks Ortogonal</h4>
+<p>$A^T A = AA^T = I$ atau $A^{-1} = A^T$</p>
+<p>Sifat: Memertahankan panjang vektor dan sudut.</p>
+
+<h4>5. Matriks Segitiga Atas (Upper Triangular)</h4>
+<p>$$U = \\begin{bmatrix} a & b & c \\\\ 0 & d & e \\\\ 0 & 0 & f \\end{bmatrix}$$</p>
+<p>Sifat: Nilai eigen = elemen diagonal.</p>
+
+<h4>6. Matriks Segitiga Bawah (Lower Triangular)</h4>
+<p>$$L = \\begin{bmatrix} a & 0 & 0 \\\\ b & c & 0 \\\\ d & e & f \\end{bmatrix}$$</p>
+
+<h4>7. Matriks Idempoten</h4>
+<p>$A^2 = A$</p>
+
+<h4>8. Matriks Nol (Zero Matrix)</h4>
+<p>Semua elemen = 0.</p>`
+                    }
+                ]
+            },
+
+            // SISTEM HOMOGEN
+            'homogeneous': {
+                title: 'Sistem Homogen',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Sistem Homogen?',
+                        content: `<p><strong>Sistem homogen</strong> adalah sistem persamaan linear yang semua konstantanya = 0.</p>
+
+<h4>Bentuk:</h4>
+<p>$$Ax = 0$$</p>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>Selalu memiliki <strong>solusi trivial</strong> ($x = 0$)</li>
+<li>Jika det(A) ≠ 0 → hanya solusi trivial</li>
+<li>Jika det(A) = 0 → tak hingga solusi</li>
+</ul>
+
+<h4>Solusi Non-Trivial:</h4>
+<p>Jika ada solusi selain $x = 0$, maka:</p>
+<ul>
+<li>Solusi bisa di-scale (jika x solusi, maka cx juga solusi)</li>
+<li>Himpunan semua solusi membentuk <strong>ruang nol</strong> (null space)</li>
+<li>Dimensi ruang nol = n - rank(A)</li>
+</ul>
+
+<h4>Contoh:</h4>
+<pre><code>x + 2y = 0
+2x + 4y = 0</code></pre>
+<p>Determinan = 0, sehingga ada tak hingga solusi.</p>
+<p>Solusi: $x = -2t, y = t$ untuk semua $t \\in \\mathbb{R}$</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Mencari ruang nol matriks</li>
+<li>Menentukan stabilitas sistem</li>
+<li>Mencari vektor eigen (dari $(A - \\lambda I)v = 0$)</li>
+</ul>`
+                    }
+                ]
+            },
+
+            // RUANG VEKTOR
+            'what-is-vector-space': {
+                title: 'Apa itu Ruang Vektor?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Definisi Ruang Vektor',
+                        content: `<p><strong>Ruang vektor</strong> (vector space) adalah himpunan vektor yang memenuhi operasi penjumlahan vektor dan perkalian skalar.</p>
+
+<h4>Aksioma Ruang Vektor:</h4>
+<p>Untuk semua vektor $u, v, w$ dan skalar $c, d$:</p>
+<ol>
+<li>$u + v = v + u$ (komutatif)</li>
+<li>$(u + v) + w = u + (v + w)$ (asosiatif)</li>
+<li>Ada vektor nol: $v + 0 = v$</li>
+<li>Ada vektor negatif: $v + (-v) = 0$</li>
+<li>$c(u + v) = cu + cv$ (distributif)</li>
+<li>$(c + d)v = cv + dv$</li>
+<li>$c(dv) = (cd)v$</li>
+<li>$1v = v$</li>
+</ol>
+
+<h4>Contoh Ruang Vektor:</h4>
+<ul>
+<li>$\\mathbb{R}^n$ = ruang vektor n-dimensi</li>
+<li>$\\mathbb{R}^2$ = bidang kartesius</li>
+<li>$\\mathbb{R}^3$ = ruang 3 dimensi</li>
+<li>Himpunan semua matriks m×n</li>
+<li>Himpunan semua polinomial derajat ≤ n</li>
+</ul>
+
+<h4>Bukan Ruang Vektor:</h4>
+<ul>
+<li>Himpunan vektor dengan komponen positif saja (tidak ada vektor negatif)</li>
+<li>Himpunan vektor dengan $|v| = 1$ (tidak tertutup terhadap penjumlahan)</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'basis-dimension': {
+                title: 'Basis & Dimensi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Basis dan Dimensi',
+                        content: `<h4>Basis:</h4>
+<p><strong>Basis</strong> dari ruang vektor adalah himpunan vektor yang:</p>
+<ol>
+<li><strong>Linear independen</strong> (tidak ada yang redundan)</li>
+<li><strong>Merentang</strong> (span) seluruh ruang vektor</li>
+</ol>
+
+<h4>Contoh Basis $\\mathbb{R}^2$:</h4>
+<p>Basis standar: $\\{[1, 0], [0, 1]\\}$</p>
+<p>Basis lain: $\\{[1, 1], [1, -1]\\}$ (juga valid!)</p>
+
+<h4>Dimensi:</h4>
+<p><strong>Dimensi</strong> = jumlah vektor dalam basis.</p>
+<ul>
+<li>$\\dim(\\mathbb{R}^2) = 2$</li>
+<li>$\\dim(\\mathbb{R}^3) = 3$</li>
+<li>$\\dim(\\mathbb{R}^n) = n$</li>
+</ul>
+
+<h4>Teorema:</h4>
+<ul>
+<li>Setiap basis memiliki jumlah vektor yang sama</li>
+<li>Basis tidak unik, tapi dimensi unik</li>
+<li>n vektor linear independen di $\\mathbb{R}^n$ membentuk basis</li>
+</ul>
+
+<h4>Cara Mencari Basis:</h4>
+<ol>
+<li>Buat matriks dengan vektor-vektor sebagai kolom</li>
+<li>Eliminasi Gauss ke bentuk eselon baris</li>
+<li>Kolom dengan pivot membentuk basis</li>
+</ol>`
+                    }
+                ]
+            },
+
+            'column-row-space': {
+                title: 'Ruang Kolom & Baris',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Ruang Kolom dan Ruang Baris',
+                        content: `<h4>Ruang Kolom (Column Space):</h4>
+<p><strong>Ruang kolom</strong> matriks A adalah span dari semua kolom A.</p>
+<p>$$Col(A) = span\\{a_1, a_2, ..., a_n\\}$$</p>
+<p>Dimensi ruang kolom = <strong>rank(A)</strong></p>
+
+<h4>Ruang Baris (Row Space):</h4>
+<p><strong>Ruang baris</strong> matriks A adalah span dari semua baris A.</p>
+<p>$$Row(A) = Col(A^T)$$</p>
+<p>Dimensi ruang baris = <strong>rank(A)</strong></p>
+
+<h4>Teorema Fundamental:</h4>
+<p>$$\\dim(Col(A)) = \\dim(Row(A)) = rank(A)$$</p>
+
+<h4>Hubungan dengan Sistem Persamaan:</h4>
+<p>Untuk sistem $Ax = b$:</p>
+<ul>
+<li>Sistem punya solusi ⟺ $b \\in Col(A)$</li>
+<li>Sistem punya solusi unik ⟺ $rank(A) = n$ (jumlah kolom)</li>
+</ul>
+
+<h4>Contoh:</h4>
+<p>$$A = \\begin{bmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{bmatrix}$$</p>
+<p>Semua kolom adalah multiplikasi dari kolom pertama.</p>
+<p>$rank(A) = 1$, sehingga $\\dim(Col(A)) = 1$</p>
+<p>Basis ruang kolom: $\\{[1, 2, 3]^T\\}$</p>`
+                    }
+                ]
+            },
+
+            'null-space': {
+                title: 'Ruang Nol (Null Space)',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Ruang Nol?',
+                        content: `<p><strong>Ruang nol</strong> (null space) matriks A adalah himpunan semua vektor x yang memenuhi $Ax = 0$.</p>
+
+<h4>Notasi:</h4>
+<p>$$N(A) = \\{x \\in \\mathbb{R}^n : Ax = 0\\}$$</p>
+
+<h4>Dimensi Ruang Nol:</h4>
+<p>$$\\dim(N(A)) = n - rank(A)$$</p>
+<p>Di mana n = jumlah kolom matriks A.</p>
+
+<h4>Teorema Rank-Nolitas:</h4>
+<p>$$rank(A) + nullity(A) = n$$</p>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>Ruang nol selalu berisi vektor nol</li>
+<li>Ruang nol adalah subruang dari $\\mathbb{R}^n$</li>
+<li>Jika $\\dim(N(A)) = 0$ → hanya solusi trivial</li>
+<li>Jika $\\dim(N(A)) > 0$ → ada tak hingga solusi</li>
+</ul>
+
+<h4>Contoh:</h4>
+<p>$$A = \\begin{bmatrix} 1 & 2 \\\\ 2 & 4 \\end{bmatrix}$$</p>
+<p>$rank(A) = 1$, $\\dim(N(A)) = 2 - 1 = 1$</p>
+<p>Ruang nol: $N(A) = span\\{[-2, 1]^T\\}$</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menentukan jumlah solusi sistem homogen</li>
+<li>Mencari solusi umum sistem non-homogen</li>
+<li>Analisis stabilitas sistem</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'subspaces': {
+                title: 'Subruang',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Subruang?',
+                        content: `<p><strong>Subruang</strong> (subspace) dari ruang vektor V adalah himpunan bagian W yang juga merupakan ruang vektor.</p>
+
+<h4>Syarat Subruang:</h4>
+<p>W adalah subruang dari V jika:</p>
+<ol>
+<li><strong>Vektor nol</strong> ada di W</li>
+<li><strong>Tertutup terhadap penjumlahan</strong>: $u, v \\in W \\Rightarrow u + v \\in W$</li>
+<li><strong>Tertutup terhadap perkalian skalar</strong>: $v \\in W, c \\in \\mathbb{R} \\Rightarrow cv \\in W$</li>
+</ol>
+
+<h4>Contoh Subruang di $\\mathbb{R}^3$:</h4>
+<ul>
+<li>Garis melalui titik asal (dimensi 1)</li>
+<li>Bidang melalui titik asal (dimensi 2)</li>
+<li>$\\mathbb{R}^3$ sendiri (dimensi 3)</li>
+<li>$\\{0\\}$ = ruang nol (dimensi 0)</li>
+</ul>
+
+<h4>Bukan Subruang:</h4>
+<ul>
+<li>Garis yang tidak melalui titik asal</li>
+<li>Bidang yang tidak melalui titik asal</li>
+<li>kuadran pertama di $\\mathbb{R}^2$</li>
+</ul>
+
+<h4>Subruang Penting dari Matriks A:</h4>
+<ul>
+<li><strong>Ruang kolom</strong> $Col(A)$</li>
+<li><strong>Ruang baris</strong> $Row(A) = Col(A^T)$</li>
+<li><strong>Ruang nol</strong> $N(A)$</li>
+<li><strong>Ruang nol kiri</strong> $N(A^T)$</li>
+</ul>
+
+<h4>Teorema:</h4>
+<p>$$\\dim(Col(A)) + \\dim(N(A^T)) = m$$</p>
+<p>$$\\dim(Row(A)) + \\dim(N(A)) = n$$</p>`
+                    }
+                ]
+            },
+
+            // TRANSFORMASI LINEAR
+            'what-is-transformation': {
+                title: 'Apa itu Transformasi Linear?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Definisi Transformasi Linear',
+                        content: `<p><strong>Transformasi linear</strong> (linear transformation) adalah fungsi $T: V \\rightarrow W$ yang memenuhi:</p>
+
+<h4>Sifat-sifat:</h4>
+<ol>
+<li><strong>Preservasi penjumlahan</strong>: $T(u + v) = T(u) + T(v)$</li>
+<li><strong>Preservasi perkalian skalar</strong>: $T(cv) = cT(v)$</li>
+</ol>
+
+<h4>Notasi:</h4>
+<p>$$T: \\mathbb{R}^n \\rightarrow \\mathbb{R}^m$$</p>
+<p>$n$ = dimensi domain, $m$ = dimensi kodomain</p>
+
+<h4>Contoh Transformasi Linear:</h4>
+<ul>
+<li>Rotasi</li>
+<li>Refleksi</li>
+<li>Skala (scaling)</li>
+<li>Proyeksi</li>
+<li>Shear</li>
+</ul>
+
+<h4>Bukan Transformasi Linear:</h4>
+<ul>
+<li>$T(x) = x + 1$ (tidak preservasi penjumlahan)</li>
+<li>$T(x) = x^2$ (non-linear)</li>
+<li>$T(x) = |x|$ (tidak preservasi perkalian skalar negatif)</li>
+</ul>
+
+<h4>Hubungan dengan Matriks:</h4>
+<p>Setiap transformasi linear $T: \\mathbb{R}^n \\rightarrow \\mathbb{R}^m$ bisa direpresentasikan oleh matriks A:</p>
+<p>$$T(x) = Ax$$</p>
+<p>Di mana A adalah matriks m×n.</p>`
+                    }
+                ]
+            },
+
+            'transformation-matrix': {
+                title: 'Matriks Transformasi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Matriks Transformasi',
+                        content: `<h4>Mencari Matriks Transformasi:</h4>
+<p>Jika $T: \\mathbb{R}^n \\rightarrow \\mathbb{R}^m$, maka matriks transformasi A berukuran m×n.</p>
+
+<h4>Cara:</h4>
+<ol>
+<li>Terapkan T pada setiap vektor basis standar $e_1, e_2, ..., e_n$</li>
+<li>Hasilnya menjadi kolom-kolom matriks A</li>
+</ol>
+
+<h4>Contoh:</h4>
+<p>$T: \\mathbb{R}^2 \\rightarrow \\mathbb{R}^2$ dengan $T(e_1) = [2, 3]$ dan $T(e_2) = [1, 4]$</p>
+<p>$$A = \\begin{bmatrix} 2 & 1 \\\\ 3 & 4 \\end{bmatrix}$$</p>
+
+<h4>Transformasi Standar:</h4>
+
+<p><strong>Rotasi sudut θ:</strong></p>
+<p>$$R = \\begin{bmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{bmatrix}$$</p>
+
+<p><strong>Refleksi terhadap sumbu x:</strong></p>
+<p>$$S_x = \\begin{bmatrix} 1 & 0 \\\\ 0 & -1 \\end{bmatrix}$$</p>
+
+<p><strong>Skala faktor k:</strong></p>
+<p>$$S = \\begin{bmatrix} k & 0 \\\\ 0 & k \\end{bmatrix}$$</p>
+
+<p><strong>Proyeksi ke sumbu x:</strong></p>
+<p>$$P_x = \\begin{bmatrix} 1 & 0 \\\\ 0 & 0 \\end{bmatrix}$$</p>`
+                    }
+                ]
+            },
+
+            'rotation-scaling': {
+                title: 'Rotasi & Skala',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Rotasi dan Skala',
+                        content: `<h4>Rotasi:</h4>
+<p>Memutar vektor sebesar sudut θ berlawanan arah jarum jam.</p>
+<p>$$R_\\theta = \\begin{bmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{bmatrix}$$</p>
+
+<h4>Contoh Rotasi 90°:</h4>
+<p>$$R_{90°} = \\begin{bmatrix} 0 & -1 \\\\ 1 & 0 \\end{bmatrix}$$</p>
+<p>$T([1, 0]) = [0, 1]$</p>
+<p>$T([0, 1]) = [-1, 0]$</p>
+
+<h4>Skala:</h4>
+<p>Memperbesar atau memperkecil vektor.</p>
+<p>$$S_{k_x, k_y} = \\begin{bmatrix} k_x & 0 \\\\ 0 & k_y \\end{bmatrix}$$</p>
+<ul>
+<li>$k > 1$: memperbesar</li>
+<li>$0 < k < 1$: memperkecil</li>
+<li>$k < 0$: refleksi + skala</li>
+</ul>
+
+<h4>Kombinasi Transformasi:</h4>
+<p>Transformasi bisa dikomposisi:</p>
+<p>$$T = T_2 \\circ T_1 \\rightarrow A = A_2 A_1$$</p>
+<p><strong>Catatan</strong>: Urutan penting! $A_1 A_2 \\neq A_2 A_1$</p>
+
+<h4>Rotasi 3D:</h4>
+<p>Rotasi di ruang 3D bisa dilakukan terhadap sumbu x, y, atau z:</p>
+<p>$$R_x = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & \\cos\\theta & -\\sin\\theta \\\\ 0 & \\sin\\theta & \\cos\\theta \\end{bmatrix}$$</p>`
+                    }
+                ]
+            },
+
+            'projection': {
+                title: 'Proyeksi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Proyeksi',
+                        content: `<h4>Proyeksi Ortogonal:</h4>
+<p><strong>Proyeksi</strong> vektor v ke vektor u:</p>
+<p>$$proj_u(v) = \\frac{v \\cdot u}{u \\cdot u} u = \\frac{v \\cdot u}{|u|^2} u$$</p>
+
+<h4>Interpretasi Geometris:</h4>
+<p>Proyeksi adalah "bayangan" vektor v pada garis yang sejajar dengan u.</p>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>$|proj_u(v)| \\leq |v|$</li>
+<li>$v - proj_u(v)$ tegak lurus terhadap u</li>
+<li>Jika v dan u sejajar: $proj_u(v) = v$</li>
+<li>Jika v dan u tegak lurus: $proj_u(v) = 0$</li>
+</ul>
+
+<h4>Proyeksi ke Subruang:</h4>
+<p>Proyeksi vektor v ke subruang yang di-span oleh kolom matriks A:</p>
+<p>$$proj_S(v) = A(A^T A)^{-1} A^T v$$</p>
+<p>Matriks $P = A(A^T A)^{-1} A^T$ disebut <strong>matriks proyeksi</strong>.</p>
+
+<h4>Sifat Matriks Proyeksi:</h4>
+<ul>
+<li>$P^2 = P$ (idempoten)</li>
+<li>$P^T = P$ (simetris)</li>
+<li>Eigenvalues: 0 atau 1</li>
+</ul>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Metode kuadrat terkecil (least squares)</li>
+<li>Kompresi data</li>
+<li>Sistem GPS</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'kernel-image': {
+                title: 'Kernel & Image',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Kernel dan Image',
+                        content: `<h4>Kernel (Nucleus):</h4>
+<p><strong>Kernel</strong> transformasi linear $T$ adalah himpunan semua vektor yang dipetakan ke vektor nol.</p>
+<p>$$ker(T) = \\{v \\in V : T(v) = 0\\}$$</p>
+<p>Untuk $T(x) = Ax$: $ker(T) = N(A)$ (ruang nol)</p>
+
+<h4>Image (Range):</h4>
+<p><strong>Image</strong> transformasi linear $T$ adalah himpunan semua vektor hasil transformasi.</p>
+<p>$$im(T) = \\{T(v) : v \\in V\\}$$</p>
+<p>Untuk $T(x) = Ax$: $im(T) = Col(A)$ (ruang kolom)</p>
+
+<h4>Teorema Dimensi (Rank-Nullity):</h4>
+<p>$$\\dim(ker(T)) + \\dim(im(T)) = \\dim(V)$$</p>
+<p>Atau: <strong>nullity + rank = n</strong></p>
+
+<h4>Interpretasi:</h4>
+<ul>
+<li>$\\ker(T) = \\{0\\}$ → T injektif (one-to-one)</li>
+<li>$im(T) = W$ → T surjektif (onto)</li>
+<li>T injektif dan surjektif → T bijektif (isomorfisme)</li>
+</ul>
+
+<h4>Contoh:</h4>
+<p>$T: \\mathbb{R}^3 \\rightarrow \\mathbb{R}^2$ dengan $T(x,y,z) = (x+y, y+z)$</p>
+<p>$ker(T) = \\{(t, -t, t) : t \\in \\mathbb{R}\\} = span\\{(1, -1, 1)\\}$</p>
+<p>$im(T) = \\mathbb{R}^2$ (seluruh ruang)</p>
+<p>$\\dim(ker) = 1$, $\\dim(im) = 2$, $1 + 2 = 3$ ✓</p>`
+                    }
+                ]
+            },
+
+            // ORTOGONALITAS
+            'what-is-orthogonal': {
+                title: 'Apa itu Ortogonal?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Ortogonalitas',
+                        content: `<h4>Definisi:</h4>
+<p>Dua vektor <strong>ortogonal</strong> jika tegak lurus satu sama lain.</p>
+<p>$$u \\perp v \\iff u \\cdot v = 0$$</p>
+
+<h4>Ortonormal:</h4>
+<p>Himpunan vektor <strong>ortonormal</strong> jika:</p>
+<ol>
+<li>Saling ortogonal: $u_i \\cdot u_j = 0$ untuk $i \\neq j$</li>
+<li>Vektor satuan: $|u_i| = 1$ untuk semua i</li>
+</ol>
+
+<h4>Contoh Basis Ortonormal $\\mathbb{R}^2$:</h4>
+<p>$\\{[1, 0], [0, 1]\\}$ ← basis standar (ortonormal)</p>
+
+<h4>Matriks Ortogonal:</h4>
+<p>Matriks Q yang kolom-kolomnya membentuk basis ortonormal.</p>
+<p>$$Q^T Q = Q Q^T = I$$</p>
+<p>$$Q^{-1} = Q^T$$</p>
+
+<h4>Sifat Matriks Ortogonal:</h4>
+<ul>
+<li>Memertahankan panjang vektor: $|Qv| = |v|$</li>
+<li>Memertahankan sudut</li>
+<li>$det(Q) = \\pm 1$</li>
+<li>Nilai eigen memiliki modulus 1</li>
+</ul>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Stabilitas numerik</li>
+<li>Dekomposisi QR</li>
+<li>SVD (Singular Value Decomposition)</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'gram-schmidt': {
+                title: 'Proses Gram-Schmidt',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Proses Gram-Schmidt',
+                        content: `<h4>Tujuan:</h4>
+<p>Mengubah basis biasa menjadi basis ortonormal.</p>
+
+<h4>Langkah-langkah:</h4>
+<p>Untuk basis $\\{v_1, v_2, v_3\\}$:</p>
+
+<p><strong>Langkah 1: Ortogonalisasi</strong></p>
+<p>$u_1 = v_1$</p>
+<p>$u_2 = v_2 - proj_{u_1}(v_2) = v_2 - \\frac{v_2 \\cdot u_1}{u_1 \\cdot u_1} u_1$</p>
+<p>$u_3 = v_3 - proj_{u_1}(v_3) - proj_{u_2}(v_3)$</p>
+
+<p><strong>Langkah 2: Normalisasi</strong></p>
+<p>$e_i = \\frac{u_i}{|u_i|}$</p>
+
+<h4>Contoh:</h4>
+<p>Basis: $v_1 = [1, 1, 0]$, $v_2 = [1, 0, 1]$, $v_3 = [0, 1, 1]$</p>
+
+<p>Langkah 1:</p>
+<p>$u_1 = [1, 1, 0]$</p>
+<p>$u_2 = [1, 0, 1] - \\frac{1}{2}[1, 1, 0] = [\\frac{1}{2}, -\\frac{1}{2}, 1]$</p>
+<p>$u_3 = [0, 1, 1] - \\frac{1}{2}[1, 1, 0] - \\frac{1}{3}[\\frac{1}{2}, -\\frac{1}{2}, 1] = [-\\frac{2}{3}, \\frac{2}{3}, \\frac{2}{3}]$</p>
+
+<p>Langkah 2:</p>
+<p>$e_1 = \\frac{1}{\\sqrt{2}}[1, 1, 0]$</p>
+<p>$e_2 = \\frac{1}{\\sqrt{3/2}}[\\frac{1}{2}, -\\frac{1}{2}, 1]$</p>
+<p>$e_3 = \\frac{1}{\\sqrt{4/3}}[-\\frac{2}{3}, \\frac{2}{3}, \\frac{2}{3}]$</p>`
+                    }
+                ]
+            },
+
+            'orthogonal-projection': {
+                title: 'Proyeksi Ortogonal',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Proyeksi Ortogonal ke Subruang',
+                        content: `<h4>Proyeksi ke Subruang:</h4>
+<p>Jika $S$ adalah subruang yang di-span oleh kolom matriks $A$, maka proyeksi vektor $b$ ke $S$:</p>
+<p>$$proj_S(b) = A(A^T A)^{-1} A^T b$$</p>
+
+<h4>Matriks Proyeksi:</h4>
+<p>$$P = A(A^T A)^{-1} A^T$$</p>
+
+<h4>Sifat:</h4>
+<ul>
+<li>$P^2 = P$ (idempoten)</li>
+<li>$P^T = P$ (simetris)</li>
+<li>$Pb$ adalah proyeksi $b$ ke $Col(A)$</li>
+<li>$b - Pb$ tegak lurus terhadap $Col(A)$</li>
+</ul>
+
+<h4>Jika Kolom A Ortonormal:</h4>
+<p>$$P = AA^T$$</p>
+<p>(Lebih sederhana karena $A^T A = I$)</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Metode kuadrat terkecil</li>
+<li>Approximasi fungsi</li>
+<li>Kompresi data</li>
+<li>Sistem navigasi</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'least-squares': {
+                title: 'Metode Kuadrat Terkecil',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Metode Kuadrat Terkecil (Least Squares)',
+                        content: `<h4>Masalah:</h4>
+<p>Sistem $Ax = b$ mungkin tidak memiliki solusi tepat (overdetermined).</p>
+<p>Kita mencari $x$ yang meminimalkan error: $\\|Ax - b\\|^2$</p>
+
+<h4>Solusi:</h4>
+<p>$$\\hat{x} = (A^T A)^{-1} A^T b$$</p>
+<p>Ini disebut <strong>solusi kuadrat terkecil</strong>.</p>
+
+<h4>Persamaan Normal:</h4>
+<p>$$A^T A \\hat{x} = A^T b$$</p>
+
+<h4>Interpretasi Geometris:</h4>
+<p>$A\\hat{x}$ adalah proyeksi $b$ ke $Col(A)$.</p>
+<p>Error $e = b - A\\hat{x}$ tegak lurus terhadap $Col(A)$.</p>
+
+<h4>Contoh: Regresi Linear</h4>
+<p>Data: $(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)$</p>
+<p>Model: $y = mx + c$</p>
+<p>$$A = \\begin{bmatrix} x_1 & 1 \\\\ x_2 & 1 \\\\ \\vdots & \\vdots \\\\ x_n & 1 \\end{bmatrix}, b = \\begin{bmatrix} y_1 \\\\ y_2 \\\\ \\vdots \\\\ y_n \\end{bmatrix}$$</p>
+<p>$$\\hat{x} = \\begin{bmatrix} m \\\\ c \\end{bmatrix} = (A^T A)^{-1} A^T b$$</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Regresi linear dan non-linear</li>
+<li>Curve fitting</li>
+<li>Sistem GPS</li>
+<li>Machine learning</li>
+</ul>`
+                    }
+                ]
+            },
+
+            // DEKOMPOSISI
+            'lu-decomposition': {
+                title: 'Dekomposisi LU',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Dekomposisi LU',
+                        content: `<h4>Konsep:</h4>
+<p>Setiap matriks persegi A bisa ditulis sebagai:</p>
+<p>$$A = LU$$</p>
+<p>Di mana:</p>
+<ul>
+<li>L = matriks segitiga bawah (lower triangular) dengan diagonal = 1</li>
+<li>U = matriks segitiga atas (upper triangular)</li>
+</ul>
+
+<h4>Contoh:</h4>
+<p>$$A = \\begin{bmatrix} 2 & 1 \\\\ 4 & 3 \\end{bmatrix} = \\begin{bmatrix} 1 & 0 \\\\ 2 & 1 \\end{bmatrix} \\begin{bmatrix} 2 & 1 \\\\ 0 & 1 \\end{bmatrix} = LU$$</p>
+
+<h4>Dekomposisi PLU:</h4>
+<p>Dengan pivoting:</p>
+<p>$$PA = LU$$</p>
+<p>Di mana P = matriks permutasi.</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menyelesaikan sistem persamaan linear secara efisien</li>
+<li>Menghitung determinan: $\\det(A) = \\det(L) \\times \\det(U) = \\prod u_{ii}$</li>
+<li>Menghitung invers matriks</li>
+<li>Menyelesaikan sistem untuk banyak vektor b</li>
+</ul>
+
+<h4>Kelebihan:</h4>
+<ul>
+<li>Efisien: O(n³) untuk dekomposisi, O(n²) untuk setiap solusi</li>
+<li>Bisa digunakan berulang kali untuk b berbeda</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'qr-decomposition': {
+                title: 'Dekomposisi QR',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Dekomposisi QR',
+                        content: `<h4>Konsep:</h4>
+<p>Setiap matriks A dengan kolom-kolom linear independen bisa ditulis:</p>
+<p>$$A = QR$$</p>
+<p>Di mana:</p>
+<ul>
+<li>Q = matriks ortogonal (kolom-kolomnya ortonormal)</li>
+<li>R = matriks segitiga atas (upper triangular)</li>
+</ul>
+
+<h4>Cara Menghitung:</h4>
+<p>Gunakan proses Gram-Schmidt pada kolom-kolom A untuk mendapatkan Q.</p>
+<p>$$R = Q^T A$$</p>
+
+<h4>Contoh:</h4>
+<p>$$A = \\begin{bmatrix} 1 & 1 \\\\ 1 & 0 \\\\ 0 & 1 \\end{bmatrix} = QR$$</p>
+<p>Q = matriks 3×2 dengan kolom ortonormal</p>
+<p>R = matriks 2×2 segitiga atas</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menyelesaikan sistem overdetermined (least squares)</li>
+<li>Mencari nilai eigen (algoritma QR)</li>
+<li>Lebih stabil secara numerik daripada eliminasi Gauss</li>
+</ul>
+
+<h4>Algoritma QR untuk Nilai Eigen:</h4>
+<p>Iterasi:</p>
+<ol>
+<li>$A_0 = A$</li>
+<li>$A_k = Q_k R_k$ (dekomposisi QR)</li>
+<li>$A_{k+1} = R_k Q_k$</li>
+<li>Ulangi hingga konvergen ke matriks segitiga atas</li>
+</ol>
+<p>Nilai eigen = elemen diagonal matriks segitiga atas.</p>`
+                    }
+                ]
+            },
+
+            'svd': {
+                title: 'Dekomposisi Nilai Singular (SVD)',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'SVD (Singular Value Decomposition)',
+                        content: `<h4>Konsep:</h4>
+<p>Setiap matriks A (m×n) bisa ditulis:</p>
+<p>$$A = U \\Sigma V^T$$</p>
+<p>Di mana:</p>
+<ul>
+<li>U = matriks ortogonal m×m (vektor singular kiri)</li>
+<li>$\\Sigma$ = matriks diagonal m×n (nilai singular)</li>
+<li>V = matriks ortogonal n×n (vektor singular kanan)</li>
+</ul>
+
+<h4>Nilai Singular:</h4>
+<p>Nilai singular $\\sigma_i$ adalah akar kuadrat dari nilai eigen $A^T A$.</p>
+<p>$$\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$$</p>
+<p>Nilai singular selalu ≥ 0 dan diurutkan: $\\sigma_1 \\geq \\sigma_2 \\geq ... \\geq 0$</p>
+
+<h4>Interpretasi Geometris:</h4>
+<p>SVD menguraikan transformasi A menjadi:</p>
+<ol>
+<li>Rotasi/refleksi ($V^T$)</li>
+<li>Skala ($\\Sigma$)</li>
+<li>Rotasi/refleksi lagi ($U$)</li>
+</ol>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li><strong>Kompresi data</strong>: Approximasi matriks dengan rank lebih rendah</li>
+<li><strong>PCA (Principal Component Analysis)</strong></li>
+<li><strong>Rekomendasi sistem</strong> (Netflix, Spotify)</li>
+<li><strong>Pengolahan citra</strong></li>
+<li><strong>Least squares</strong></li>
+</ul>
+
+<h4>Dekomposisi Nilai Singular Tereduksi:</h4>
+<p>$$A \\approx U_r \\Sigma_r V_r^T$$</p>
+<p>Di mana r = rank yang diinginkan.</p>`
+                    }
+                ]
+            },
+
+            'applications': {
+                title: 'Aplikasi Aljabar Linear',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aplikasi di Dunia Nyata',
+                        content: `<h4>1. Machine Learning & AI</h4>
+<ul>
+<li><strong>PCA</strong>: Reduksi dimensi dengan SVD</li>
+<li><strong>Neural Networks</strong>: Perkalian matriks di setiap layer</li>
+<li><strong>Regresi</strong>: Least squares untuk prediksi</li>
+<li><strong>Clustering</strong>: K-means menggunakan vektor</li>
+</ul>
+
+<h4>2. Grafika Komputer</h4>
+<ul>
+<li><strong>Transformasi 3D</strong>: Rotasi, translasi, skala</li>
+<li><strong>Rendering</strong>: Proyeksi 3D ke 2D</li>
+<li><strong>Animasi</strong>: Interpolasi matriks transformasi</li>
+</ul>
+
+<h4>3. Sistem Rekomendasi</h4>
+<ul>
+<li><strong>Netflix/Spotify</strong>: SVD untuk menemukan pola</li>
+<li><strong>Collaborative Filtering</strong>: Matriks user-item</li>
+</ul>
+
+<h4>4. Pengolahan Sinyal</h4>
+<ul>
+<li><strong>FFT (Fast Fourier Transform)</strong></li>
+<li><strong>Kompresi audio/video</strong></li>
+<li><strong>Filter digital</strong></li>
+</ul>
+
+<h4>5. Fisika & Teknik</h4>
+<ul>
+<li><strong>Mekanika kuantum</strong>: Operator dan eigenstates</li>
+<li><strong>Sistem kontrol</strong>: Analisis stabilitas</li>
+<li><strong>Vibrasi</strong>: Frekuensi natural = akar nilai eigen</li>
+<li><strong>Listrik</strong>: Analisis rangkaian</li>
+</ul>
+
+<h4>6. Ekonomi & Keuangan</h4>
+<ul>
+<li><strong>Model Markowitz</strong>: Optimasi portofolio</li>
+<li><strong>Analisis input-output</strong>: Model Leontief</li>
+</ul>
+
+<h4>7. Google PageRank</h4>
+<p>Algoritma Google menggunakan vektor eigen dari matriks transisi web untuk menentukan peringkat halaman.</p>
+
+<h4>8. GPS (Global Positioning System)</h4>
+<p>Menggunakan least squares untuk menentukan posisi dari sinyal satelit.</p>`
+                    }
+                ]
             }
         };
 
