@@ -430,27 +430,115 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     body {
-        padding: 10px;
+        padding: 0;
     }
 
     .terminal {
         border-radius: 0;
+        min-height: 100vh;
     }
 
     .terminal-body {
-        padding: 15px;
-        max-height: 90vh;
+        padding: 12px;
+        max-height: 100vh;
+        min-height: auto;
+    }
+
+    .ascii-art {
+        font-size: 6px;
+        line-height: 1.2;
+    }
+
+    .menu-table th,
+    .menu-table td {
+        padding: 8px 10px;
+        font-size: 13px;
     }
 
     .lesson-nav {
         flex-direction: column;
+        gap: 6px;
+    }
+
+    .lesson-link {
+        display: block;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .lesson-title {
+        font-size: 18px;
+    }
+
+    .section {
+        padding: 12px;
+        margin: 15px 0;
+    }
+
+    .section-title {
+        font-size: 14px;
+    }
+
+    .section-content {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .section-content h4 {
+        font-size: 13px;
+    }
+
+    .section-content pre {
+        padding: 10px;
+        font-size: 11px;
     }
 
     .calc-buttons {
         flex-direction: column;
     }
 
+    .calc-buttons button {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .calc-row input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .prompt-line {
+        flex-wrap: wrap;
+        font-size: 12px;
+    }
+
+    .input-area {
+        font-size: 12px;
+    }
+
+    .terminal-title {
+        font-size: 10px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
     .ascii-art {
-        font-size: 8px;
+        font-size: 5px;
+    }
+
+    .menu-table th,
+    .menu-table td {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    .lesson-title {
+        font-size: 16px;
+    }
+
+    .section-content {
+        font-size: 12px;
     }
 }
