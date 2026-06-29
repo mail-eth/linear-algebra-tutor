@@ -167,7 +167,19 @@ LESSONS = {
             {'id': 'lu-decomposition', 'title': 'Dekomposisi LU'},
             {'id': 'qr-decomposition', 'title': 'Dekomposisi QR'},
             {'id': 'svd', 'title': 'Dekomposisi Nilai Singular (SVD)'},
-            {'id': 'applications', 'title': 'Aplikasi Aljabar Linear'},
+        ]
+    },
+    'use-cases': {
+        'title': '🎯 Use Case & Aplikasi',
+        'topics': [
+            {'id': 'machine-learning', 'title': 'Machine Learning & AI'},
+            {'id': 'computer-graphics', 'title': 'Grafika Komputer & Game'},
+            {'id': 'image-processing', 'title': 'Pengolahan Citra'},
+            {'id': 'recommendation', 'title': 'Sistem Rekomendasi'},
+            {'id': 'search-engines', 'title': 'Mesin Pencari (Google)'},
+            {'id': 'physics-engineering', 'title': 'Fisika & Teknik'},
+            {'id': 'economics-finance', 'title': 'Ekonomi & Keuangan'},
+            {'id': 'network-analysis', 'title': 'Analisis Jaringan'},
         ]
     }
 }

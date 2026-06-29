@@ -1767,6 +1767,616 @@ cx + dy = f</code></pre>
             }
         };
 
+        // USE CASES & APPLICATIONS
+            'machine-learning': {
+                title: 'Machine Learning & AI',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aljabar Linear dalam Machine Learning',
+                        content: `<h4>🧠 Neural Networks</h4>
+<p>Setiap layer dalam neural network adalah perkalian matriks:</p>
+<pre><code>Input (vektor) → Matriks Bobot → Output (vektor)
+
+x → Wx + b → activation(Wx + b)</code></pre>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│   Input     │      │   Hidden    │      │   Output    │
+│   Layer     │─────▶│   Layer     │─────▶│   Layer     │
+│  (vektor)   │  W₁  │  (vektor)   │  W₂  │  (vektor)   │
+└─────────────┘      └─────────────┘      └─────────────┘
+     x           W₁x + b₁            W₂(W₁x + b₁) + b₂
+</pre>
+</div>
+
+<h4>📊 PCA (Principal Component Analysis)</h4>
+<p>Reduksi dimensi menggunakan nilai eigen:</p>
+<ol>
+<li>Hitung matriks kovarians dari data</li>
+<li>Cari nilai eigen dan vektor eigen</li>
+<li>Pilih k vektor eigen terbesar</li>
+<li>Proyeksikan data ke ruang baru</li>
+</ol>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Data Asli (2D)          →    PCA    →    Data Tereduksi (1D)
+
+    · ·                                 │
+   ·   ·    ·                           │· · · · · · ·
+  · · · · ·                              │
+     · ·                                 │
+   ·   ·   ·      ──────────────────▶    │
+  ·     · ·                              │
+                                         │
+  Dimensi X & Y                          │ Principal Component
+</pre>
+</div>
+
+<h4>📈 Regresi Linear</h4>
+<p>Mencari garis terbaik dengan least squares:</p>
+<p>$$y = mx + c$$</p>
+<p>$$\\begin{bmatrix} m \\\\ c \\end{bmatrix} = (A^T A)^{-1} A^T b$$</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+    y
+    ↑
+  8 +       ·
+    |     ·   ·
+  6 +   ·       ·
+    |  ·    ──────── ← Garis regresi (least squares)
+  4 + ·   ·
+    |·  ·
+  2 +·
+    +───┬───┬───┬───▶ x
+        1   2   3   4
+</pre>
+</div>
+
+<h4>🎯 K-Means Clustering</h4>
+<p>Mengelompokkan data berdasarkan jarak vektor:</p>
+<pre><code>1. Pilih k centroid awal
+2. Assign setiap titik ke centroid terdekat (gunakan jarak vektor)
+3. Update centroid = rata-rata vektor dalam cluster
+4. Ulangi hingga konvergen</code></pre>`
+                    }
+                ]
+            },
+
+            'computer-graphics': {
+                title: 'Grafika Komputer & Game',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aljabar Linear dalam Grafika Komputer',
+                        content: `<h4>🎮 Transformasi 3D</h4>
+<p>Setiap objek dalam game menggunakan matriks transformasi:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Transformasi pada Objek 3D:
+
+┌────────────────────────────────────────────────────────────┐
+│                                                            │
+│   Rotasi          Skala           Translasi                │
+│                                                            │
+│    ┌──┐          ┌────┐           ┌──┐                     │
+│    │╱ │   →      │    │    →      │  │  →  ┌──┐           │
+│    └──┘          └────┘           └──┘     │  │  di sini   │
+│                                            └──┘           │
+│                                                            │
+│   R = [[cos,-sin],[sin,cos]]                              │
+│   S = [[sx,0],[0,sy]]                                     │
+│   T = [[1,0,tx],[0,1,ty]]                                 │
+└────────────────────────────────────────────────────────────┘
+</pre>
+</div>
+
+<h4>📐 Proyeksi 3D ke 2D</h4>
+<p>Mengubah koordinat 3D menjadi tampilan di layar:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+        3D World                    2D Screen
+           │                            │
+           │    ┌──────────────┐        │
+           │   /              /│        │
+           │  /    Objek     / │        │      ┌────────┐
+           │ /     3D       /  │   ───▶ │      │ ┌────┐ │
+           │/              /   │        │      │ │    │ │
+           └──────────────┘    │        │      │ └────┘ │
+                               │        │      └────────┘
+           P = M_proj × [x,y,z,1]ᵀ
+</pre>
+</div>
+
+<h4>🖼️ Matriks Transformasi Homogen</h4>
+<p>Menggunakan koordinat homogen (4D) untuk semua transformasi:</p>
+<p>$$T = \\begin{bmatrix} a & b & c & tx \\\\ d & e & f & ty \\\\ g & h & i & tz \\\\ 0 & 0 & 0 & 1 \\end{bmatrix}$$</p>
+
+<h4>🎨 Animasi dengan Interpolasi Matriks</h4>
+<pre><code>Frame 1: M₁ = Rotasi(0°)
+Frame 2: M₂ = Rotasi(5°)
+Frame 3: M₃ = Rotasi(10°)
+...
+M(t) = (1-t)M₁ + tM₂  ← Interpolasi linear</code></pre>
+
+<h4>Contoh Aplikasi:</h4>
+<ul>
+<li><strong>Unity/Unreal Engine</strong>: Semua transformasi menggunakan matriks 4×4</li>
+<li><strong>Blender/Maya</strong>: Modeling dan animasi 3D</li>
+<li><strong>Game Engine</strong>: Physics, collision detection</li>
+<li><strong>VR/AR</strong>: Transformasi koordinat dunia ke mata</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'image-processing': {
+                title: 'Pengolahan Citra',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aljabar Linear dalam Pengolahan Citra',
+                        content: `<h4>🖼️ Citra sebagai Matriks</h4>
+<p>Setiap gambar adalah matriks angka:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Citra Grayscale (8×8):              Citra Warna (3 channel):
+
+┌─────────────────────┐            ┌─────────────────────┐
+│ 50  50  50  50 100  │            │ R: [50, 50, ...]    │
+│ 50 100 100 100 100  │            │ G: [50, 100, ...]   │
+│ 50 100 200 100 100  │            │ B: [50, 100, ...]   │
+│ 50 100 100 100 100  │            └─────────────────────┘
+│ 50  50  50  50 100  │
+└─────────────────────┘
+     Matriks 5×5
+</pre>
+</div>
+
+<h4>🔧 Filter/Kernel</h4>
+<p>Filter adalah matriks kecil yang dikonvolusi dengan gambar:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Sharpen Filter:              Blur Filter:
+┌─────────────┐             ┌─────────────┐
+│  0  -1   0  │             │ 1/9 1/9 1/9 │
+│ -1   5  -1  │             │ 1/9 1/9 1/9 │
+│  0  -1   0  │             │ 1/9 1/9 1/9 │
+└─────────────┘             └─────────────┘
+
+Edge Detection:              Emboss:
+┌─────────────┐             ┌─────────────┐
+│ -1  -1  -1  │             │ -2  -1   0  │
+│ -1   8  -1  │             │ -1   1   1  │
+│ -1  -1  -1  │             │  0   1   2  │
+└─────────────┘             └─────────────┘
+</pre>
+</div>
+
+<h4>📦 Kompresi Gambar dengan SVD</h4>
+<p>Approximasi matriks gambar dengan rank lebih rendah:</p>
+<p>$$A \\approx U_r \\Sigma_r V_r^T$$</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Original (rank=100)    →    Compressed (rank=10)    →    Compressed (rank=5)
+
+┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│ ████████████████│      │ ████████████████│      │ ▓▓▓▓▓▓░░░░░░░░░░│
+│ ████████████████│      │ ████████████████│      │ ▓▓▓▓▓▓░░░░░░░░░░│
+│ ████████████████│      │ ██████████████░░│      │ ▓▓▓▓░░░░░░░░░░░░│
+│ ████████████████│      │ ████████████░░░░│      │ ░░░░░░░░░░░░░░░░│
+│ ████████████████│      │ ██████████░░░░░░│      │ ░░░░░░░░░░░░░░░░│
+└─────────────────┘      └─────────────────┘      └─────────────────┘
+   100% size                ~20% size                 ~10% size
+   100% quality             ~90% quality              ~70% quality
+</pre>
+</div>
+
+<h4>Contoh Aplikasi:</h4>
+<ul>
+<li><strong>JPEG/PNG</strong>: Kompresi gambar</li>
+<li><strong>Photoshop</strong>: Filter dan efek</li>
+<li><strong>Medical Imaging</strong>: MRI, CT Scan</li>
+<li><strong>Face Recognition</strong>: Eigenfaces dengan PCA</li>
+<li><strong>Self-driving Cars</strong>: Deteksi objek</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'recommendation': {
+                title: 'Sistem Rekomendasi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Sistem Rekomendasi dengan Aljabar Linear',
+                        content: `<h4>🎬 Netflix/Spotify/YouTube</h4>
+<p>Sistem rekomendasi menggunakan matriks user-item:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Matriks Rating User-Item:
+
+              Film 1  Film 2  Film 3  Film 4  Film 5
+            ┌─────────────────────────────────────────┐
+  User A    │   5       ?       4       ?       2     │
+  User B    │   ?       3       ?       5       ?     │
+  User C    │   4       ?       5       ?       3     │
+  User D    │   ?       4       ?       3       ?     │
+            └─────────────────────────────────────────┘
+                            ↓
+                    SVD Decomposition
+                            ↓
+            ┌─────────────────────────────────────────┐
+  User A    │   5       3.2     4       4.1     2     │
+  User B    │   3.8     3       4.2     5       2.8   │
+  User C    │   4       3.5     5       3.9     3     │
+  User D    │   3.2     4       3.8     3       2.5   │
+            └─────────────────────────────────────────┘
+                            ↓
+                    Prediksi rating
+                    untuk film yang
+                    belum ditonton
+</pre>
+</div>
+
+<h4>📊 Collaborative Filtering</h4>
+<p>Menemukan pola dari perilaku user:</p>
+<ol>
+<li>Buat matriks user-item (rating, view, click)</li>
+<li>Decompose dengan SVD: $M \\approx U \\Sigma V^T$</li>
+<li>Representasi user dalam ruang laten</li>
+<li>Rekomendasikan item yang mirip</li>
+</ol>
+
+<h4>🎯 Content-Based Filtering</h4>
+<p>Menggunakan vektor fitur item:</p>
+<pre><code>Film = [Aksi, Komedi, Drama, Sci-Fi, Romance]
+Film A = [0.8, 0.1, 0.3, 0.9, 0.1]
+Film B = [0.7, 0.2, 0.2, 0.8, 0.2]
+
+Similarity = cos(θ) = (A · B) / (|A| × |B|)</code></pre>
+
+<h4>Contoh Platform:</h4>
+<ul>
+<li><strong>Netflix</strong>: 80% tontonan berasal dari rekomendasi</li>
+<li><strong>Spotify</strong>: Discover Weekly menggunakan SVD</li>
+<li><strong>Amazon</strong>: "Customers who bought this also bought..."</li>
+<li><strong>TikTok</strong>: For You Page berdasarkan vektor preferensi</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'search-engines': {
+                title: 'Mesin Pencari (Google)',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Google PageRank & Aljabar Linear',
+                        content: `<h4>🔍 PageRank Algorithm</h4>
+<p>Algoritma Google untuk menentukan peringkat halaman web:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Web Graph:
+
+    ┌───────┐         ┌───────┐
+    │Page A │────────▶│Page B │
+    └───────┘         └───────┘
+         │                 │
+         │                 │
+         ▼                 ▼
+    ┌───────┐◀────────┌───────┐
+    │Page C │────────▶│Page D │
+    └───────┘         └───────┘
+
+Matriks Transisi (Adjacency Matrix):
+
+         A    B    C    D
+    A [ 0    1    0    0  ]
+    B [ 1    0    1    0  ]
+    C [ 1    0    0    1  ]
+    D [ 0    1    1    0  ]
+</pre>
+</div>
+
+<h4>📐 Algoritma PageRank</h4>
+<p>PageRank adalah vektor eigen dari matriks transisi:</p>
+<p>$$M \\cdot PR = PR$$</p>
+<p>Di mana PR adalah vektor PageRank (eigenvalue = 1).</p>
+
+<pre><code>Iterasi:
+PR(t+1) = M × PR(t)
+
+Konvergen ke:
+PR = [0.36, 0.28, 0.24, 0.12]
+     ↓     ↓     ↓     ↓
+   Rank 1 Rank 2 Rank 3 Rank 4</code></pre>
+
+<h4>🔎 TF-IDF (Term Frequency-Inverse Document Frequency)</h4>
+<p>Menggunakan vektor untuk merepresentasikan dokumen:</p>
+<pre><code>Dokumen 1: "aljabar linear sangat menarik"
+Dokumen 2: "aljabar linear untuk machine learning"
+
+Vektor TF-IDF:
+D1 = [0.5, 0.3, 0.0, 0.4, 0.2]  ← kata: [aljabar, linear, machine, learning, menarik]
+D2 = [0.4, 0.3, 0.5, 0.5, 0.0]
+
+Similarity = cos(θ) = (D1 · D2) / (|D1| × |D2|)</code></pre>
+
+<h4>Contoh Aplikasi:</h4>
+<ul>
+<li><strong>Google Search</strong>: PageRank + TF-IDF + 200+ faktor lain</li>
+<li><strong>Elasticsearch</strong>: Search engine untuk aplikasi</li>
+<li><strong>Document Retrieval</strong>: Pencarian dokumen mirip</li>
+<li><strong>Plagiarism Detection</strong>: Deteksi kemiripan dokumen</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'physics-engineering': {
+                title: 'Fisika & Teknik',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aljabar Linear dalam Fisika & Teknik',
+                        content: `<h4>⚛️ Mekanika Kuantum</h4>
+<p>Dalam mekanika kuantum, semua observable adalah operator (matriks):</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Sistem Kuantum:
+
+    State Vector (ψ)          Observable (H)
+    ┌─────────────┐          ┌─────────────┐
+    │   α         │          │ E₁  0   0   │
+    │   β         │    ×     │ 0   E₂  0   │
+    │   γ         │          │ 0   0   E₃   │
+    └─────────────┘          └─────────────┘
+          ↓                         ↓
+    Vektor eigen           Nilai eigen = Energi
+
+    Hψ = Eψ  ← Persamaan Schrödinger
+</pre>
+</div>
+
+<h4>🔧 Sistem Kontrol</h4>
+<p>Analisis stabilitas sistem dengan nilai eigen:</p>
+<pre><code>Sistem: dx/dt = Ax
+
+Stabilitas:
+- Semua Re(λ) < 0 → Stabil
+- Ada Re(λ) > 0 → Tidak stabil
+- Re(λ) = 0 → Batas stabilitas</code></pre>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Sistem Kontrol:
+
+    Input ──▶ [Plant: A] ──▶ Output
+                ↑     │
+                │     │
+                └─────┘
+              Feedback (K)
+
+Closed Loop: dx/dt = (A - BK)x
+
+Eigenvalues of (A - BK) → Tentukan stabilitas
+</pre>
+</div>
+
+<h4>📡 Vibrasi & Osilasi</h4>
+<p>Frekuensi natural = akar kuadrat dari nilai eigen:</p>
+<p>$$Kx = \\omega^2 Mx$$</p>
+<p>Di mana K = matriks kekakuan, M = matriks massa.</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Sistem Pegas-Massa:
+
+    ┌─────┐
+    │  M  │───/\/\/───[Dinding]
+    └─────┘     k
+
+    Mode 1: ω₁ = √(k/m)
+    Mode 2: ω₂ = √(3k/m)
+    Mode 3: ω₃ = √(5k/m)
+
+    Setiap mode = vektor eigen
+</pre>
+</div>
+
+<h4>⚡ Rangkaian Listrik</h4>
+<p>Analisis rangkaian dengan matriks admitansi:</p>
+<pre><code>Hukum Kirchhoff: I = YV
+
+Y = Matriks admitansi
+I = Vektor arus
+V = Vektor tegangan</code></pre>
+
+<h4>Contoh Aplikasi:</h4>
+<ul>
+<li><strong>Mekanika Kuantum</strong>: Persamaan Schrödinger</li>
+<li><strong>Sistem Kontrol</strong>: Robot, pesawat, mobil otonom</li>
+<li><strong>Teknik Sipil</strong>: Analisis struktur jembatan</li>
+<li><strong>Aerospace</strong>: Stabilitas pesawat</li>
+<li><strong>Elektronika</strong>: Filter, amplifier</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'economics-finance': {
+                title: 'Ekonomi & Keuangan',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aljabar Linear dalam Ekonomi & Keuangan',
+                        content: `<h4>📈 Model Input-Output Leontief</h4>
+<p>Model ekonomi yang menggunakan matriks untuk analisis sektor:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Ekonomi dengan 3 Sektor:
+
+    Pertanian → Industri → Jasa
+         ↓         ↓        ↓
+    ┌─────────────────────────────┐
+    │  Input dari setiap sektor   │
+    │                             │
+    │     P    I    J             │
+    │ P [0.2  0.3  0.1]          │
+    │ I [0.4  0.1  0.3]          │
+    │ J [0.1  0.2  0.4]          │
+    └─────────────────────────────┘
+              ↓
+    Matriks Input-Output (A)
+
+    Produksi: x = Ax + d
+    Solusi: x = (I - A)⁻¹ d
+</pre>
+</div>
+
+<h4>💹 Optimasi Portofolio (Markowitz)</h4>
+<p>Menggunakan matriks kovarians untuk diversifikasi:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Portofolio dengan 3 Aset:
+
+    Return vs Risk:
+
+    Return ↑
+        │      · Aset A (High Risk, High Return)
+        │    ·
+        │  · ←─ Efficient Frontier
+        │·
+        │   · Aset B (Medium)
+        │     ·
+        │       · Aset C (Low Risk, Low Return)
+        └─────────────────────▶ Risk
+
+    Matriks Kovarians:
+    Σ = [[σ₁₁, σ₁₂, σ₁₃],
+         [σ₂₁, σ₂₂, σ₂₃],
+         [σ₃₁, σ₃₂, σ₃₃]]
+
+    Variansi portofolio: σ²ₚ = wᵀΣw
+</pre>
+</div>
+
+<h4>📊 Analisis Faktor</h4>
+<p>Menemukan faktor tersembunyi dari data keuangan:</p>
+<pre><code>Data return saham → PCA → Faktor-faktor utama
+
+Faktor 1: Market (menjelaskan 60% variasi)
+Faktor 2: Size (menjelaskan 15% variasi)
+Faktor 3: Value (menjelaskan 10% variasi)
+...</code></pre>
+
+<h4>Contoh Aplikasi:</h4>
+<ul>
+<li><strong>Wall Street</strong>: Quantitative trading, risk management</li>
+<li><strong>Bank</strong>: Credit scoring, loan approval</li>
+<li><strong>Insurance</strong>: Actuarial models</li>
+<li><strong>Central Bank</strong>: Model makroekonomi</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'network-analysis': {
+                title: 'Analisis Jaringan',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aljabar Linear dalam Analisis Jaringan',
+                        content: `<h4>🌐 Social Network Analysis</h4>
+<p>Menganalisis jaringan sosial dengan matriks adjacency:</p>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Social Network Graph:
+
+    ┌───────┐         ┌───────┐
+    │ Alice │────────▶│  Bob  │
+    └───────┘         └───────┘
+         │                 │
+         │                 │
+         ▼                 ▼
+    ┌───────┐◀────────┌───────┐
+    │Carol  │────────▶│ Dave  │
+    └───────┘         └───────┘
+
+Matriks Adjacency (A):
+
+         Alice  Bob  Carol  Dave
+    Alice  [0     1     1     0 ]
+    Bob    [0     0     0     0 ]
+    Carol  [0     0     0     1 ]
+    Dave   [0     0     1     0 ]
+
+Degree Matrix (D):
+    D = diag([2, 1, 2, 1])
+
+Laplacian Matrix (L):
+    L = D - A
+</pre>
+</div>
+
+<h4>📊 Eigenvector Centrality</h4>
+<p>Mengukur pentingnya node berdasarkan koneksi:</p>
+<pre><code>Centrality = vektor eigen dari matriks adjacency
+
+c = λ⁻¹ Ac
+
+Node dengan centrality tinggi → lebih "penting"</code></pre>
+
+<h4>🔍 Community Detection</h4>
+<p>Menemukan kelompok dalam jaringan:</p>
+<pre><code>1. Hitung matriks Laplacian: L = D - A
+2. Cari eigenvalue terkecil kedua (Fiedler value)
+3. Vektor eigen terkait → partisi jaringan</code></pre>
+
+<div class="visual-diagram">
+<pre class="ascii-art">
+Community Detection:
+
+Before:                    After clustering:
+
+●─●─●─●─●─●              ●─●─●   ●─●─●
+│ │ │ │ │ │              │ │ │   │ │ │
+●─●─●─●─●─●    ────▶    ●─●─●   ●─●─●
+│ │ │ │ │ │              │ │ │   │ │ │
+●─●─●─●─●─●              ●─●─●   ●─●─●
+
+          Community 1    Community 2
+</pre>
+</div>
+
+<h4>Contoh Aplikasi:</h4>
+<ul>
+<li><strong>Facebook/Instagram</strong>: Friend suggestions</li>
+<li><strong>LinkedIn</strong>: Connection recommendations</li>
+<li><strong>Twitter/X</strong>: Trending topics</li>
+<li><strong>Epidemiology</strong>: Penyebaran penyakit</li>
+<li><strong>Transportasi</strong>: Optimasi rute</li>
+</ul>`
+                    }
+                ]
+            }
+        };
+
         // Render lesson content
         function renderLesson() {
             const content = lessonContent[topicId];
