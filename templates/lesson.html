@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ topic.title }} - Linear Algebra Tutor</title>
+    <title>{{ topic.title }} - Tutor Aljabar Linear</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -24,7 +24,7 @@
                 <span class="btn-minimize"></span>
                 <span class="btn-maximize"></span>
             </div>
-            <div class="terminal-title">{{ topic.title }} — linear-algebra-tutor</div>
+            <div class="terminal-title">{{ topic.title }} — tutor-aljabar-linear</div>
         </div>
 
         <div class="terminal-body">
@@ -33,7 +33,7 @@
                 <div class="prompt-line">
                     <span class="prompt">$</span>
                     <span class="command">cd ~/{{ category }}</span>
-                    <a href="/" class="nav-link">[back to home]</a>
+                    <a href="/" class="nav-link">[kembali ke beranda]</a>
                 </div>
 
                 <!-- Lesson Menu -->
@@ -50,13 +50,12 @@
 
                 <!-- Lesson Content -->
                 <div class="lesson-content" id="lesson-content">
-                    <!-- Content will be loaded dynamically -->
-                    <div class="loading">Loading lesson...</div>
+                    <div class="loading">Memuat pelajaran...</div>
                 </div>
             </div>
 
             <div class="input-area">
-                <span class="prompt">user@linear-algebra:~$</span>
+                <span class="prompt">user@aljabar-linear:~$</span>
                 <span class="cursor">█</span>
             </div>
         </div>
@@ -66,29 +65,38 @@
         const category = '{{ category }}';
         const topicId = '{{ topic.id }}';
 
-        // Lesson content data
+        // Lesson content data - Indonesian
         const lessonContent = {
-            // VECTORS
+            // VEKTOR
             'what-is-vector': {
-                title: 'Apa itu Vector?',
+                title: 'Apa itu Vektor?',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Definisi Vector',
-                        content: `<p><strong>Vector</strong> adalah objek matematika yang memiliki <strong>besar (magnitude)</strong> dan <strong>arah (direction)</strong>.</p>
-<p>Dalam linear algebra, vector direpresentasikan sebagai <strong>daftar angka</strong> yang disusun secara vertikal atau horizontal.</p>
+                        title: 'Definisi Vektor',
+                        content: `<p><strong>Vektor</strong> adalah objek matematika yang memiliki <strong>besar (magnitude)</strong> dan <strong>arah (direction)</strong>.</p>
+<p>Dalam aljabar linear, vektor direpresentasikan sebagai <strong>daftar angka</strong> yang disusun secara vertikal atau horizontal.</p>
+
 <h4>Contoh:</h4>
 <ul>
-<li>Vector 2D: <code>[3, 4]</code> → titik di koordinat (3, 4)</li>
-<li>Vector 3D: <code>[1, 2, 3]</code> → titik di ruang 3 dimensi</li>
+<li>Vektor 2D: <code>[3, 4]</code> → titik di koordinat (3, 4)</li>
+<li>Vektor 3D: <code>[1, 2, 3]</code> → titik di ruang 3 dimensi</li>
 </ul>
+
 <h4>Notasi:</h4>
-<p>$$\\vec{v} = \\begin{bmatrix} 3 \\\\ 4 \\end{bmatrix}$$</p>`
+<p>$$\\vec{v} = \\begin{bmatrix} 3 \\\\ 4 \\end{bmatrix}$$</p>
+
+<h4>Sifat-sifat Vektor:</h4>
+<ul>
+<li><strong>Vektor nol</strong>: $\\vec{0} = [0, 0]$ (tidak punya arah)</li>
+<li><strong>Vektor satuan</strong>: vektor dengan panjang = 1</li>
+<li><strong>Vektor negatif</strong>: arah berlawanan, besar sama</li>
+</ul>`
                     },
                     {
                         type: 'example',
                         title: 'Contoh Interaktif',
-                        content: `<p>Mari kita lihat contoh vector:</p>`,
+                        content: `<p>Mari kita lihat contoh vektor:</p>`,
                         interactive: {
                             type: 'vector_display',
                             vectors: [
@@ -101,26 +109,34 @@
             },
 
             'vector-operations': {
-                title: 'Operasi Vector',
+                title: 'Operasi Vektor',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Operasi Dasar Vector',
-                        content: `<h4>1. Penjumlahan Vector</h4>
+                        title: 'Operasi Dasar Vektor',
+                        content: `<h4>1. Penjumlahan Vektor</h4>
 <p>$\\vec{A} + \\vec{B}$ dilakukan secara komponen per komponen.</p>
 <p>Jika $\\vec{A} = [a_1, a_2]$ dan $\\vec{B} = [b_1, b_2]$, maka:</p>
 <p>$$\\vec{A} + \\vec{B} = [a_1 + b_1, a_2 + b_2]$$</p>
 
-<h4>2. Pengurangan Vector</h4>
+<h4>2. Pengurangan Vektor</h4>
 <p>$$\\vec{A} - \\vec{B} = [a_1 - b_1, a_2 - b_2]$$</p>
 
 <h4>3. Perkalian Skalar</h4>
-<p>$$c \\times \\vec{A} = [c \\times a_1, c \\times a_2]$$</p>`
+<p>$$c \\times \\vec{A} = [c \\times a_1, c \\times a_2]$$</p>
+<p>Skalar mengubah <strong>besar</strong> vektor tanpa mengubah arah (jika positif).</p>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>Komutatif: $\\vec{A} + \\vec{B} = \\vec{B} + \\vec{A}$</li>
+<li>Asosiatif: $(\\vec{A} + \\vec{B}) + \\vec{C} = \\vec{A} + (\\vec{B} + \\vec{C})$</li>
+<li>Identitas: $\\vec{A} + \\vec{0} = \\vec{A}$</li>
+</ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Kalkulator Vector',
-                        content: `<p>Coba sendiri! Masukkan vector dan operasi:</p>`,
+                        title: 'Kalkulator Vektor',
+                        content: `<p>Coba sendiri! Masukkan vektor dan operasi:</p>`,
                         interactive: {
                             type: 'vector_calculator'
                         }
@@ -129,29 +145,37 @@
             },
 
             'dot-product': {
-                title: 'Dot Product',
+                title: 'Produk Titik (Dot Product)',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Apa itu Dot Product?',
-                        content: `<p><strong>Dot Product</strong> (perkalian titik) adalah operasi yang menghasilkan <strong>skalar</strong> (angka tunggal) dari dua vector.</p>
+                        title: 'Apa itu Produk Titik?',
+                        content: `<p><strong>Produk Titik</strong> (dot product) adalah operasi yang menghasilkan <strong>skalar</strong> (angka tunggal) dari dua vektor.</p>
 
 <h4>Rumus:</h4>
 <p>$$\\vec{A} \\cdot \\vec{B} = a_1 b_1 + a_2 b_2$$</p>
 
 <h4>Interpretasi Geometris:</h4>
 <p>$$\\vec{A} \\cdot \\vec{B} = |\\vec{A}| \\times |\\vec{B}| \\times \\cos(\\theta)$$</p>
+<p>Di mana $\\theta$ adalah sudut antara kedua vektor.</p>
 
 <h4>Artinya:</h4>
 <ul>
 <li>Jika $\\vec{A} \\cdot \\vec{B} > 0$ → sudut &lt; 90° (searah)</li>
-<li>Jika $\\vec{A} \\cdot \\vec{B} = 0$ → sudut = 90° (tegak lurus)</li>
+<li>Jika $\\vec{A} \\cdot \\vec{B} = 0$ → sudut = 90° (tegak lurus/ortogonal)</li>
 <li>Jika $\\vec{A} \\cdot \\vec{B} &lt; 0$ → sudut &gt; 90° (berlawanan arah)</li>
+</ul>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menghitung sudut antara dua vektor</li>
+<li>Memeriksa apakah dua vektor tegak lurus</li>
+<li>Proyeksi satu vektor ke vektor lain</li>
 </ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Hitung Dot Product',
+                        title: 'Hitung Produk Titik',
                         interactive: {
                             type: 'dot_product_calculator'
                         }
@@ -160,23 +184,34 @@
             },
 
             'magnitude': {
-                title: 'Magnitude & Normalisasi',
+                title: 'Panjang & Normalisasi Vektor',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Magnitude (Panjang Vector)',
-                        content: `<p><strong>Magnitude</strong> atau panjang vector dihitung menggunakan teorema Pythagoras.</p>
+                        title: 'Panjang Vektor (Magnitude)',
+                        content: `<p><strong>Panjang vektor</strong> atau <strong>magnitude</strong> dihitung menggunakan teorema Pythagoras.</p>
 
 <h4>Rumus (2D):</h4>
 <p>$$|\\vec{A}| = \\sqrt{a_1^2 + a_2^2}$$</p>
 
+<h4>Rumus (3D):</h4>
+<p>$$|\\vec{A}| = \\sqrt{a_1^2 + a_2^2 + a_3^2}$$</p>
+
 <h4>Normalisasi:</h4>
-<p><strong>Vector satuan</strong> (unit vector) adalah vector dengan panjang = 1.</p>
-<p>$$\\hat{A} = \\frac{\\vec{A}}{|\\vec{A}|}$$</p>`
+<p><strong>Vektor satuan</strong> (unit vector) adalah vektor dengan panjang = 1.</p>
+<p>$$\\hat{A} = \\frac{\\vec{A}}{|\\vec{A}|}$$</p>
+<p>Normalisasi mempertahankan arah, hanya mengubah panjang menjadi 1.</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menghitung jarak antara dua titik</li>
+<li>Membuat vektor arah tanpa mempedulikan jarak</li>
+<li>Dalam fisika: kecepatan, gaya, dll</li>
+</ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Hitung Magnitude & Normalisasi',
+                        title: 'Hitung Panjang & Normalisasi',
                         interactive: {
                             type: 'magnitude_calculator'
                         }
@@ -184,31 +219,71 @@
                 ]
             },
 
-            // MATRICES
-            'what-is-matrix': {
-                title: 'Apa itu Matrix?',
+            'cross-product': {
+                title: 'Produk Silang (Cross Product)',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Definisi Matrix',
-                        content: `<p><strong>Matrix</strong> adalah susunan angka dalam bentuk <strong>baris dan kolom</strong>.</p>
+                        title: 'Apa itu Produk Silang?',
+                        content: `<p><strong>Produk Silang</strong> (cross product) adalah operasi yang menghasilkan <strong>vektor baru</strong> dari dua vektor 3D.</p>
 
-<h4>Notasi:</h4>
-<p>$$A = \\begin{bmatrix} a_{11} & a_{12} \\\\ a_{21} & a_{22} \\end{bmatrix}$$</p>
+<h4>Rumus:</h4>
+<p>$$\\vec{A} \\times \\vec{B} = \\begin{bmatrix} a_2 b_3 - a_3 b_2 \\\\ a_3 b_1 - a_1 b_3 \\\\ a_1 b_2 - a_2 b_1 \\end{bmatrix}$$</p>
 
-<h4>Jenis Matrix:</h4>
+<h4>Sifat-sifat:</h4>
 <ul>
-<li><strong>Matrix 2×2</strong>: 2 baris, 2 kolom</li>
-<li><strong>Matrix persegi</strong>: jumlah baris = kolom</li>
-<li><strong>Matrix identitas (I)</strong>: diagonal = 1, lainnya = 0</li>
+<li>Hasilnya <strong>vektor</strong> (bukan skalar)</li>
+<li>Arah tegak lurus terhadap kedua vektor input</li>
+<li><strong>Tidak komutatif</strong>: $\\vec{A} \\times \\vec{B} = -(\\vec{B} \\times \\vec{A})$</li>
+<li>$|\\vec{A} \\times \\vec{B}| = |\\vec{A}| \\times |\\vec{B}| \\times \\sin(\\theta)$</li>
 </ul>
 
-<h4>Contoh Matrix Identitas 3×3:</h4>
-<p>$$I = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}$$</p>`
+<h4>Kegunaan:</h4>
+<ul>
+<li>Mencari vektor normal bidang</li>
+<li>Menghitung luas segi tiga/parallelogram</li>
+<li>Dalam fisika: torsi, medan magnet</li>
+</ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Lihat Matrix',
+                        title: 'Hitung Produk Silang',
+                        interactive: {
+                            type: 'cross_product_calculator'
+                        }
+                    }
+                ]
+            },
+
+            // MATRIKS
+            'what-is-matrix': {
+                title: 'Apa itu Matriks?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Definisi Matriks',
+                        content: `<p><strong>Matriks</strong> adalah susunan angka dalam bentuk <strong>baris dan kolom</strong> yang disusun dalam kurung siku.</p>
+
+<h4>Notasi:</h4>
+<p>$$A = \\begin{bmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\end{bmatrix}$$</p>
+<p>Ukuran: 2 baris × 3 kolom = matriks <strong>2×3</strong></p>
+
+<h4>Jenis-jenis Matriks:</h4>
+<ul>
+<li><strong>Matriks persegi</strong>: jumlah baris = kolom (n×n)</li>
+<li><strong>Matriks identitas (I)</strong>: diagonal = 1, lainnya = 0</li>
+<li><strong>Matriks diagonal</strong>: hanya elemen diagonal yang ≠ 0</li>
+<li><strong>Matriks simetris</strong>: $A = A^T$</li>
+<li><strong>Matriks nol</strong>: semua elemen = 0</li>
+</ul>
+
+<h4>Contoh Matriks Identitas 3×3:</h4>
+<p>$$I = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}$$</p>
+<p>Matriks identitas seperti "angka 1" dalam perkalian matriks.</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Lihat Matriks',
                         interactive: {
                             type: 'matrix_display',
                             matrices: [
@@ -221,22 +296,34 @@
             },
 
             'matrix-operations': {
-                title: 'Operasi Matrix',
+                title: 'Operasi Matriks',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Operasi Dasar Matrix',
-                        content: `<h4>1. Penjumlahan Matrix</h4>
-<p>Hanya bisa dilakukan pada matrix dengan <strong>ukuran sama</strong>.</p>
+                        title: 'Operasi Dasar Matriks',
+                        content: `<h4>1. Penjumlahan Matriks</h4>
+<p>Hanya bisa dilakukan pada matriks dengan <strong>ukuran sama</strong>.</p>
 <p>$$C = A + B \\rightarrow c_{ij} = a_{ij} + b_{ij}$$</p>
 
-<h4>2. Perkalian Matrix</h4>
-<p><strong>PENTING</strong>: Perkalian matrix <strong>tidak komutatif</strong>!</p>
-<p>$$A \\times B \\neq B \\times A$$</p>`
+<h4>2. Pengurangan Matriks</h4>
+<p>Sama seperti penjumlahan, komponen per komponen.</p>
+<p>$$C = A - B \\rightarrow c_{ij} = a_{ij} - b_{ij}$$</p>
+
+<h4>3. Perkalian Skalar</h4>
+<p>$$c \\times A = \\begin{bmatrix} c \\cdot a_{11} & c \\cdot a_{12} \\\\ c \\cdot a_{21} & c \\cdot a_{22} \\end{bmatrix}$$</p>
+
+<h4>4. Perkalian Matriks</h4>
+<p><strong>PENTING</strong>: Perkalian matriks <strong>tidak komutatif</strong>!</p>
+<p>$$A \\times B \\neq B \\times A$$</p>
+<p>Syarat: kolom A = baris B</p>
+<p>Jika A (m×n) dan B (n×p), maka AB = (m×p)</p>
+
+<h4>Cara menghitung AB:</h4>
+<p>$$c_{ij} = \\sum_{k=1}^{n} a_{ik} \\times b_{kj}$$</p>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Kalkulator Matrix',
+                        title: 'Kalkulator Matriks',
                         interactive: {
                             type: 'matrix_calculator'
                         }
@@ -245,11 +332,11 @@
             },
 
             'transpose': {
-                title: 'Transpose Matrix',
+                title: 'Transpose Matriks',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Transpose Matrix',
+                        title: 'Transpose Matriks',
                         content: `<p><strong>Transpose</strong> adalah operasi yang <strong>menukar baris dan kolom</strong>.</p>
 
 <h4>Notasi:</h4>
@@ -257,7 +344,19 @@
 
 <h4>Aturan:</h4>
 <p>Jika $A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$</p>
-<p>Maka $A^T = \\begin{bmatrix} a & c \\\\ b & d \\end{bmatrix}$$</p>`
+<p>Maka $A^T = \\begin{bmatrix} a & c \\\\ b & d \\end{bmatrix}$</p>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>$(A^T)^T = A$</li>
+<li>$(A + B)^T = A^T + B^T$</li>
+<li>$(AB)^T = B^T A^T$ ← urutan berubah!</li>
+<li>$(cA)^T = cA^T$</li>
+</ul>
+
+<h4>Matriks Simetris:</h4>
+<p>Jika $A = A^T$, maka matriks tersebut <strong>simetris</strong>.</p>
+<p>Contoh: $\\begin{bmatrix} 1 & 2 \\\\ 2 & 3 \\end{bmatrix}$ adalah simetris.</p>`
                     },
                     {
                         type: 'interactive',
@@ -270,25 +369,39 @@
             },
 
             'determinant': {
-                title: 'Determinant',
+                title: 'Determinan',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Apa itu Determinant?',
-                        content: `<p><strong>Determinant</strong> adalah angka yang dihitung dari matrix persegi.</p>
+                        title: 'Apa itu Determinan?',
+                        content: `<p><strong>Determinan</strong> adalah angka yang dihitung dari matriks persegi.</p>
 
-<h4>Untuk Matrix 2×2:</h4>
+<h4>Notasi:</h4>
+<p>$$det(A) \\text{ atau } |A|$$</p>
+
+<h4>Untuk Matriks 2×2:</h4>
 <p>$$det\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} = ad - bc$$</p>
+
+<h4>Untuk Matriks 3×3 (Sarrus):</h4>
+<p>$$det\\begin{bmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{bmatrix} = aei + bfg + cdh - ceg - bdi - afh$$</p>
 
 <h4>Interpretasi:</h4>
 <ul>
-<li><strong>det(A) ≠ 0</strong>: Matrix bisa di-inverse</li>
-<li><strong>det(A) = 0</strong>: Matrix singular</li>
+<li><strong>det(A) ≠ 0</strong>: Matriks bisa di-invers, sistem punya solusi unik</li>
+<li><strong>det(A) = 0</strong>: Matriks singular, tidak bisa di-invers</li>
+<li><strong>|det(A)|</strong>: Faktor skala transformasi</li>
+</ul>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>$det(AB) = det(A) \\times det(B)$</li>
+<li>$det(A^T) = det(A)$</li>
+<li>$det(A^{-1}) = \\frac{1}{det(A)}$</li>
 </ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Hitung Determinant',
+                        title: 'Hitung Determinan',
                         interactive: {
                             type: 'determinant_calculator'
                         }
@@ -297,31 +410,42 @@
             },
 
             'inverse': {
-                title: 'Inverse Matrix',
+                title: 'Invers Matriks',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Apa itu Inverse?',
-                        content: `<p><strong>Inverse Matrix</strong> adalah matrix yang jika dikalikan dengan matrix asli, menghasilkan matrix identitas.</p>
+                        title: 'Apa itu Invers?',
+                        content: `<p><strong>Invers Matriks</strong> adalah matriks yang jika dikalikan dengan matriks asli, menghasilkan matriks identitas.</p>
 
 <h4>Notasi:</h4>
 <p>$$A^{-1}$$</p>
 
 <h4>Syarat:</h4>
 <ul>
-<li>Matrix harus <strong>persegi</strong></li>
-<li><strong>det(A) ≠ 0</strong></li>
+<li>Matriks harus <strong>persegi</strong> (n×n)</li>
+<li><strong>det(A) ≠ 0</strong> (tidak singular)</li>
 </ul>
 
 <h4>Sifat:</h4>
-<p>$$A \\times A^{-1} = I$$</p>
+<p>$$A \\times A^{-1} = A^{-1} \\times A = I$$</p>
 
 <h4>Rumus 2×2:</h4>
-<p>$$A^{-1} = \\frac{1}{det(A)} \\begin{bmatrix} d & -b \\\\ -c & a \\end{bmatrix}$$</p>`
+<p>$$A^{-1} = \\frac{1}{det(A)} \\begin{bmatrix} d & -b \\\\ -c & a \\end{bmatrix}$$</p>
+
+<h4>Kegunaan:</h4>
+<p>Menyelesaikan sistem persamaan:</p>
+<p>$$Ax = b \\rightarrow x = A^{-1}b$$</p>
+
+<h4>Sifat-sifat:</h4>
+<ul>
+<li>$(AB)^{-1} = B^{-1}A^{-1}$</li>
+<li>$(A^{-1})^{-1} = A$</li>
+<li>$(A^T)^{-1} = (A^{-1})^T$</li>
+</ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Hitung Inverse',
+                        title: 'Hitung Invers',
                         interactive: {
                             type: 'inverse_calculator'
                         }
@@ -329,7 +453,50 @@
                 ]
             },
 
-            // SYSTEMS
+            'rank': {
+                title: 'Rank Matriks',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Rank?',
+                        content: `<p><strong>Rank</strong> matriks adalah jumlah baris (atau kolom) yang <strong>linear independen</strong>.</p>
+
+<h4>Definisi:</h4>
+<p>Rank matriks A = jumlah baris non-nol setelah eliminasi Gauss.</p>
+
+<h4>Notasi:</h4>
+<p>$$rank(A)$$</p>
+
+<h4>Interpretasi:</h4>
+<ul>
+<li>Rank = jumlah dimensi "ruang kolom"</li>
+<li>Rank ≤ min(jumlah baris, jumlah kolom)</li>
+<li>Matriks persegi bisa di-invers ⟺ rank = n</li>
+</ul>
+
+<h4>Teorema Rank-Nolitas:</h4>
+<p>Untuk matriks m×n:</p>
+<p>$$rank(A) + nullity(A) = n$$</p>
+<p>Di mana nullity = dimensi ruang nol (solusi homogen).</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menentukan jumlah solusi sistem persamaan</li>
+<li>Memeriksa apakah matriks bisa di-invers</li>
+<li>Mencari basis ruang kolom/baris</li>
+</ul>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Hitung Rank',
+                        interactive: {
+                            type: 'rank_calculator'
+                        }
+                    }
+                ]
+            },
+
+            // SISTEM PERSAMAAN
             'what-is-system': {
                 title: 'Apa itu Sistem Persamaan Linear?',
                 sections: [
@@ -342,15 +509,24 @@
 <pre><code>2x + 3y = 8
 4x -  y = 2</code></pre>
 
-<h4>Representasi Matrix (Ax = b):</h4>
+<h4>Representasi Matriks (Ax = b):</h4>
 <p>$$\\begin{bmatrix} 2 & 3 \\\\ 4 & -1 \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\end{bmatrix} = \\begin{bmatrix} 8 \\\\ 2 \\end{bmatrix}$$</p>
 
 <h4>Jenis Solusi:</h4>
 <ul>
-<li><strong>Solusi unik</strong>: Satu titik potong</li>
-<li><strong>Tidak ada solusi</strong>: Garis sejajar</li>
-<li><strong>Tak hingga solusi</strong>: Garis berimpit</li>
-</ul>`
+<li><strong>Solusi unik</strong>: Satu titik potong (determinan ≠ 0)</li>
+<li><strong>Tidak ada solusi</strong>: Sistem tidak konsisten (garis sejajar)</li>
+<li><strong>Tak hingga solusi</strong>: Sistem dependen (garis berimpit)</li>
+</ul>
+
+<h4>Metode Penyelesaian:</h4>
+<ol>
+<li><strong>Substitusi</strong>: Isolasi satu variabel, substitusi ke persamaan lain</li>
+<li><strong>Eliminasi</strong>: Samakan koefisien, kurangkan persamaan</li>
+<li><strong>Eliminasi Gauss</strong>: Ubah ke bentuk eselon baris</li>
+<li><strong>Aturan Cramer</strong>: Gunakan determinan</li>
+<li><strong>Invers Matriks</strong>: $x = A^{-1}b$</li>
+</ol>`
                     }
                 ]
             },
@@ -373,14 +549,22 @@
 <pre><code>x + 2y = 5  ... (1)
 3x - y = 1  ... (2)</code></pre>
 
-<p>Dari (1): x = 5 - 2y</p>
+<p>Dari (1): <strong>x = 5 - 2y</strong></p>
 <p>Substitusi ke (2): 3(5 - 2y) - y = 1</p>
 <p>15 - 6y - y = 1</p>
 <p>-7y = -14</p>
-<p>y = 2</p>
+<p><strong>y = 2</strong></p>
 <p>x = 5 - 2(2) = 1</p>
+<p><strong>Solusi: x = 1, y = 2</strong></p>
 
-<p><strong>Solusi: x = 1, y = 2</strong></p>`
+<h4>Verifikasi:</h4>
+<ul>
+<li>(1): 1 + 2(2) = 5 ✓</li>
+<li>(2): 3(1) - 2 = 1 ✓</li>
+</ul>
+
+<h4>Kapan digunakan?</h4>
+<p>Metode substitusi cocok untuk sistem 2 variabel yang koefisiennya mudah diisolasi.</p>`
                     },
                     {
                         type: 'interactive',
@@ -410,9 +594,24 @@
 <pre><code>2x + 3y = 8  ... (1)
 4x -  y = 2  ... (2)</code></pre>
 
-<p>Kalikan (2) dengan 3: 12x - 3y = 6</p>
-<p>Jumlahkan dengan (1): 14x = 14</p>
-<p>x = 1, y = 2</p>`
+<p>Langkah 1: Kalikan (2) dengan 3 untuk samakan koefisien y:</p>
+<p>12x - 3y = 6  ... (2')</p>
+
+<p>Langkah 2: Jumlahkan (1) dan (2'):</p>
+<pre><code>  2x + 3y = 8
++ 12x - 3y = 6
+────────────────
+  14x      = 14</code></pre>
+
+<p>Langkah 3: Selesaikan:</p>
+<p><strong>x = 14 / 14 = 1</strong></p>
+
+<p>Langkah 4: Substitusi x=1 ke (1):</p>
+<p>2(1) + 3y = 8</p>
+<p>3y = 6</p>
+<p><strong>y = 2</strong></p>
+
+<p><strong>Solusi: x = 1, y = 2</strong></p>`
                     }
                 ]
             },
@@ -423,19 +622,35 @@
                     {
                         type: 'concept',
                         title: 'Eliminasi Gauss',
-                        content: `<p>Eliminasi Gauss mengubah sistem persamaan menjadi <strong>bentuk segitiga atas</strong>.</p>
+                        content: `<p>Eliminasi Gauss mengubah sistem persamaan menjadi <strong>bentuk eselon baris</strong> (row echelon form).</p>
 
 <h4>Operasi Baris Elementer:</h4>
 <ol>
-<li>Tukar dua baris</li>
-<li>Kalikan baris dengan konstanta</li>
-<li>Jumlahkan dua baris</li>
+<li>Tukar dua baris ($R_i \\leftrightarrow R_j$)</li>
+<li>Kalikan baris dengan konstanta ($R_i \\rightarrow kR_i$)</li>
+<li>Jumlahkan dua baris ($R_i \\rightarrow R_i + kR_j$)</li>
 </ol>
 
 <h4>Contoh 3×3:</h4>
 <pre><code>x + 2y + 3z = 9
 2x + 5y + 7z = 21
-3x + 7y + 9z = 27</code></pre>`
+3x + 7y + 9z = 27</code></pre>
+
+<h4>Matriks Augmented:</h4>
+<p>$$[A|b] = \\begin{bmatrix} 1 & 2 & 3 & | & 9 \\\\ 2 & 5 & 7 & | & 21 \\\\ 3 & 7 & 9 & | & 27 \\end{bmatrix}$$</p>
+
+<h4>Langkah-langkah:</h4>
+<ol>
+<li>Ubah ke bentuk eselon baris (segitiga atas)</li>
+<li>Gunakan <strong>back substitution</strong> untuk mencari solusi</li>
+</ol>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Menyelesaikan sistem persamaan linear</li>
+<li>Mencari invers matriks</li>
+<li>Mencari rank matriks</li>
+</ul>`
                     },
                     {
                         type: 'interactive',
@@ -457,60 +672,110 @@
 <p>Untuk sistem $Ax = b$:</p>
 <p>$$x_i = \\frac{det(A_i)}{det(A)}$$</p>
 
-<p>Di mana $A_i$ adalah matrix A dengan kolom ke-i diganti oleh vector b.</p>
+<p>Di mana $A_i$ adalah matriks A dengan kolom ke-i diganti oleh vektor b.</p>
+
+<h4>Syarat:</h4>
+<ul>
+<li>Matriks A harus persegi</li>
+<li>$det(A) \\neq 0$</li>
+</ul>
 
 <h4>Contoh 2×2:</h4>
 <pre><code>ax + by = e
 cx + dy = f</code></pre>
 
-<p>$$x = \\frac{ed - bf}{ad - bc}$$</p>
-<p>$$y = \\frac{af - ce}{ad - bc}$$</p>`
+<p>$$x = \\frac{det\\begin{bmatrix} e & b \\\\ f & d \\end{bmatrix}}{det(A)} = \\frac{ed - bf}{ad - bc}$$</p>
+
+<p>$$y = \\frac{det\\begin{bmatrix} a & e \\\\ c & f \\end{bmatrix}}{det(A)} = \\frac{af - ce}{ad - bc}$$</p>
+
+<h4>Kelebihan:</h4>
+<ul>
+<li>Rumus eksplisit (langsung)</li>
+<li>Bisa digunakan untuk mencari satu variabel saja</li>
+</ul>
+
+<h4>Kekurangan:</h4>
+<ul>
+<li>Hanya untuk sistem dengan $det(A) \\neq 0$</li>
+<li>Kurang efisien untuk matriks besar</li>
+</ul>`
                     }
                 ]
             },
 
-            // EIGENVALUES
+            // NILAI EIGEN
             'what-is-eigen': {
-                title: 'Apa itu Eigenvalues?',
+                title: 'Apa itu Nilai Eigen?',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Eigenvalues & Eigenvectors',
-                        content: `<p><strong>Eigenvalue (λ)</strong>: Skalar yang menunjukkan seberapa besar vector di-stretch.</p>
-<p><strong>Eigenvector (v)</strong>: Vector yang arahnya <strong>tidak berubah</strong> setelah transformasi.</p>
+                        title: 'Nilai Eigen & Vektor Eigen',
+                        content: `<p><strong>Nilai Eigen (λ)</strong>: Skalar yang menunjukkan seberapa besar vektor di-<em>stretch</em> atau di-<em>compress</em> oleh transformasi.</p>
+<p><strong>Vektor Eigen (v)</strong>: Vektor yang arahnya <strong>tidak berubah</strong> setelah transformasi matriks (hanya berubah besarnya).</p>
 
 <h4>Persamaan Fundamental:</h4>
 <p>$$Av = \\lambda v$$</p>
-
-<h4>Interpretasi:</h4>
+<p>Di mana:</p>
 <ul>
-<li>Eigenvector menunjukkan <strong>arah yang tetap</strong></li>
-<li>Eigenvalue menunjukkan <strong>faktor scaling</strong></li>
+<li>A = matriks transformasi</li>
+<li>v = vektor eigen</li>
+<li>λ = nilai eigen</li>
+</ul>
+
+<h4>Interpretasi Geometris:</h4>
+<p>Jika A mewakili transformasi, maka:</p>
+<ul>
+<li>Vektor eigen menunjukkan <strong>arah yang tetap</strong></li>
+<li>Nilai eigen menunjukkan <strong>faktor scaling</strong> pada arah tersebut</li>
+<li>λ > 1: vektor memanjang</li>
+<li>0 < λ < 1: vektor memendek</li>
+<li>λ < 0: vektor berbalik arah</li>
+</ul>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Analisis stabilitas sistem</li>
+<li>Principal Component Analysis (PCA)</li>
+<li>Google PageRank</li>
+<li>Vibrasi dan osilasi</li>
 </ul>`
                     }
                 ]
             },
 
             'finding-eigenvalues': {
-                title: 'Mencari Eigenvalues',
+                title: 'Mencari Nilai Eigen',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Cara Mencari Eigenvalues',
+                        title: 'Cara Mencari Nilai Eigen',
                         content: `<h4>Langkah-langkah:</h4>
 <ol>
-<li>Tulis persamaan karakteristik: $det(A - \\lambda I) = 0$</li>
-<li>Selesaikan polinomial untuk λ</li>
+<li><strong>Tulis persamaan karakteristik</strong>: $det(A - \\lambda I) = 0$</li>
+<li><strong>Selesaikan</strong> persamaan polinomial untuk λ</li>
 </ol>
 
 <h4>Contoh:</h4>
 <p>$$A = \\begin{bmatrix} 3 & 1 \\\\ 0 & 2 \\end{bmatrix}$$</p>
-<p>$$det(A - \\lambda I) = (3-\\lambda)(2-\\lambda) = 0$$</p>
-<p>Eigenvalues: $\\lambda_1 = 3, \\lambda_2 = 2$</p>`
+
+<p>Langkah 1: $A - \\lambda I$:</p>
+<p>$$\\begin{bmatrix} 3-\\lambda & 1 \\\\ 0 & 2-\\lambda \\end{bmatrix}$$</p>
+
+<p>Langkah 2: Hitung determinan:</p>
+<p>$$det(A - \\lambda I) = (3-\\lambda)(2-\\lambda) - (1)(0) = (3-\\lambda)(2-\\lambda)$$</p>
+
+<p>Langkah 3: Set = 0:</p>
+<p>$$(3-\\lambda)(2-\\lambda) = 0$$</p>
+
+<p><strong>Nilai eigen: $\\lambda_1 = 3, \\lambda_2 = 2$</strong></p>
+
+<h4>Untuk matriks 3×3:</h4>
+<p>Persamaan karakteristik berupa polinomial derajat 3:</p>
+<p>$$\\lambda^3 - tr(A)\\lambda^2 + c_1\\lambda - det(A) = 0$$</p>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Cari Eigenvalues',
+                        title: 'Cari Nilai Eigen',
                         interactive: {
                             type: 'eigenvalue_calculator'
                         }
@@ -519,20 +784,39 @@ cx + dy = f</code></pre>
             },
 
             'finding-eigenvectors': {
-                title: 'Mencari Eigenvectors',
+                title: 'Mencari Vektor Eigen',
                 sections: [
                     {
                         type: 'concept',
-                        title: 'Cara Mencari Eigenvectors',
-                        content: `<p>Setelah menemukan eigenvalue λ:</p>
+                        title: 'Cara Mencari Vektor Eigen',
+                        content: `<h4>Langkah-langkah:</h4>
+<p>Setelah menemukan nilai eigen λ:</p>
 <ol>
-<li>Substitusi λ ke $(A - \\lambda I)v = 0$</li>
-<li>Selesaikan sistem homogen untuk v</li>
-</ol>`
+<li><strong>Substitusi</strong> λ ke $(A - \\lambda I)v = 0$</li>
+<li><strong>Selesaikan</strong> sistem homogen untuk v</li>
+</ol>
+
+<h4>Contoh (lanjutan):</h4>
+<p>$A = \\begin{bmatrix} 3 & 1 \\\\ 0 & 2 \\end{bmatrix}$, $\\lambda_1 = 3$</p>
+
+<p>Langkah 1: $(A - 3I)v = 0$:</p>
+<p>$$\\begin{bmatrix} 0 & 1 \\\\ 0 & -1 \\end{bmatrix} \\begin{bmatrix} v_1 \\\\ v_2 \\end{bmatrix} = \\begin{bmatrix} 0 \\\\ 0 \\end{bmatrix}$$</p>
+
+<p>Langkah 2: Dari baris 1: $v_2 = 0$</p>
+<p>$v_1$ bebas → pilih $v_1 = 1$</p>
+
+<p><strong>Vektor eigen: $v_1 = \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix}$</strong></p>
+
+<h4>Catatan:</h4>
+<ul>
+<li>Vektor eigen bukan nol vector</li>
+<li>Vektor eigen bisa di-scale (2v juga vektor eigen)</li>
+<li>Ruas vektor eigen dari λ tertentu disebut <strong>ruang eigen</strong></li>
+</ul>`
                     },
                     {
                         type: 'interactive',
-                        title: 'Cari Eigenvectors',
+                        title: 'Cari Vektor Eigen',
                         interactive: {
                             type: 'eigenvector_calculator'
                         }
@@ -541,13 +825,35 @@ cx + dy = f</code></pre>
             },
 
             'verification': {
-                title: 'Verifikasi Eigenvalues',
+                title: 'Verifikasi Nilai Eigen',
                 sections: [
                     {
                         type: 'concept',
                         title: 'Verifikasi Av = λv',
-                        content: `<p>Untuk setiap pasangan eigenvalue-eigenvector, pastikan:</p>
-<p>$$Av = \\lambda v$$</p>`
+                        content: `<h4>Cara Verifikasi:</h4>
+<p>Untuk setiap pasangan nilai eigen-vektor eigen, pastikan:</p>
+<p>$$Av = \\lambda v$$</p>
+
+<h4>Langkah:</h4>
+<ol>
+<li>Hitung $Av$ (perkalian matriks dengan vektor eigen)</li>
+<li>Hitung $\\lambda v$ (perkalian nilai eigen dengan vektor eigen)</li>
+<li>Pastikan kedua hasil sama</li>
+</ol>
+
+<h4>Sifat Penting:</h4>
+<ul>
+<li>Vektor eigen bukan nol vector</li>
+<li>Vektor eigen bisa di-scale (2v juga vektor eigen)</li>
+<li>Nilai eigen bisa nol (tapi vektor eigen tidak)</li>
+</ul>
+
+<h4>Matriks Simetris:</h4>
+<ul>
+<li>Nilai eigen selalu <strong>real</strong></li>
+<li>Vektor eigen saling <strong>ortogonal</strong></li>
+<li>Bisa didiagonalisasi</li>
+</ul>`
                     },
                     {
                         type: 'interactive',
@@ -557,6 +863,41 @@ cx + dy = f</code></pre>
                         }
                     }
                 ]
+            },
+
+            'diagonalization': {
+                title: 'Diagonalisasi Matriks',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Diagonalisasi Matriks',
+                        content: `<h4>Konsep:</h4>
+<p>Matriks A bisa <strong>didagonalisasi</strong> jika:</p>
+<p>$$A = PDP^{-1}$$</p>
+<p>Di mana:</p>
+<ul>
+<li>D = matriks diagonal (berisi nilai eigen)</li>
+<li>P = matriks yang kolomnya adalah vektor eigen</li>
+</ul>
+
+<h4>Syarat:</h4>
+<p>Matriks n×n bisa didiagonalisasi ⟺ punya n vektor eigen linear independen.</p>
+
+<h4>Kegunaan:</h4>
+<ul>
+<li>Memudahkan perhitungan pangkat matriks: $A^k = PD^kP^{-1}$</li>
+<li>Menyelesaikan sistem diferensial</li>
+<li>Analisis konvergensi</li>
+</ul>
+
+<h4>Contoh:</h4>
+<p>$$A = \\begin{bmatrix} 3 & 1 \\\\ 0 & 2 \\end{bmatrix}$$</p>
+<p>Nilai eigen: $\\lambda_1 = 3, \\lambda_2 = 2$</p>
+<p>Vektor eigen: $v_1 = \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix}, v_2 = \\begin{bmatrix} 1 \\\\ -1 \\end{bmatrix}$</p>
+
+<p>$$P = \\begin{bmatrix} 1 & 1 \\\\ 0 & -1 \\end{bmatrix}, D = \\begin{bmatrix} 3 & 0 \\\\ 0 & 2 \\end{bmatrix}$$</p>`
+                    }
+                ]
             }
         };
 
@@ -564,7 +905,7 @@ cx + dy = f</code></pre>
         function renderLesson() {
             const content = lessonContent[topicId];
             if (!content) {
-                document.getElementById('lesson-content').innerHTML = '<div class="error">Lesson not found</div>';
+                document.getElementById('lesson-content').innerHTML = '<div class="error">Pelajaran tidak ditemukan</div>';
                 return;
             }
 
@@ -609,11 +950,11 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Vector A:</label>
+                                <label>Vektor A:</label>
                                 <input type="text" id="vec-a" placeholder="3, 4" value="3, 4">
                             </div>
                             <div class="calc-row">
-                                <label>Vector B:</label>
+                                <label>Vektor B:</label>
                                 <input type="text" id="vec-b" placeholder="1, 2" value="1, 2">
                             </div>
                             <div class="calc-buttons">
@@ -629,11 +970,11 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Vector A:</label>
+                                <label>Vektor A:</label>
                                 <input type="text" id="dot-a" placeholder="3, 4" value="3, 4">
                             </div>
                             <div class="calc-row">
-                                <label>Vector B:</label>
+                                <label>Vektor B:</label>
                                 <input type="text" id="dot-b" placeholder="1, 2" value="1, 2">
                             </div>
                             <div class="calc-buttons">
@@ -647,14 +988,32 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Vector:</label>
+                                <label>Vektor:</label>
                                 <input type="text" id="mag-v" placeholder="3, 4" value="3, 4">
                             </div>
                             <div class="calc-buttons">
-                                <button onclick="calcMagnitude()">|v|</button>
-                                <button onclick="calcNormalize()">Normalize</button>
+                                <button onclick="calcMagnitude()">|v| (Panjang)</button>
+                                <button onclick="calcNormalize()">Normalisasi</button>
                             </div>
                             <div class="calc-result" id="mag-result"></div>
+                        </div>`;
+                    break;
+
+                case 'cross_product_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Vektor A (3D):</label>
+                                <input type="text" id="cross-a" placeholder="1, 2, 3" value="1, 2, 3">
+                            </div>
+                            <div class="calc-row">
+                                <label>Vektor B (3D):</label>
+                                <input type="text" id="cross-b" placeholder="4, 5, 6" value="4, 5, 6">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcCrossProduct()">Hitung A × B</button>
+                            </div>
+                            <div class="calc-result" id="cross-result"></div>
                         </div>`;
                     break;
 
@@ -662,11 +1021,11 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Matrix A (baris dipisah ; kolom dipisah ,):</label>
+                                <label>Matriks A (baris dipisah ; kolom dipisah ,):</label>
                                 <input type="text" id="mat-a" placeholder="1,2;3,4" value="1,2;3,4">
                             </div>
                             <div class="calc-row">
-                                <label>Matrix B:</label>
+                                <label>Matriks B:</label>
                                 <input type="text" id="mat-b" placeholder="5,6;7,8" value="5,6;7,8">
                             </div>
                             <div class="calc-buttons">
@@ -681,11 +1040,11 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Matrix:</label>
+                                <label>Matriks:</label>
                                 <input type="text" id="trans-m" placeholder="1,2,3;4,5,6" value="1,2,3;4,5,6">
                             </div>
                             <div class="calc-buttons">
-                                <button onclick="calcTranspose()">Transpose</button>
+                                <button onclick="calcTranspose()">Transpose (Aᵀ)</button>
                             </div>
                             <div class="calc-result" id="trans-result"></div>
                         </div>`;
@@ -695,11 +1054,11 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Matrix 2×2:</label>
+                                <label>Matriks 2×2:</label>
                                 <input type="text" id="det-m" placeholder="1,2;3,4" value="1,2;3,4">
                             </div>
                             <div class="calc-buttons">
-                                <button onclick="calcDeterminant()">det(A)</button>
+                                <button onclick="calcDeterminant()">Hitung det(A)</button>
                             </div>
                             <div class="calc-result" id="det-result"></div>
                         </div>`;
@@ -709,13 +1068,27 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Matrix 2×2:</label>
+                                <label>Matriks 2×2:</label>
                                 <input type="text" id="inv-m" placeholder="1,2;3,4" value="1,2;3,4">
                             </div>
                             <div class="calc-buttons">
-                                <button onclick="calcInverse()">A⁻¹</button>
+                                <button onclick="calcInverse()">Hitung A⁻¹</button>
                             </div>
                             <div class="calc-result" id="inv-result"></div>
+                        </div>`;
+                    break;
+
+                case 'rank_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Matriks (baris ; kolom ,):</label>
+                                <input type="text" id="rank-m" placeholder="1,2,3;4,5,6;7,8,9" value="1,2,3;4,5,6;7,8,9">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcRank()">Hitung Rank</button>
+                            </div>
+                            <div class="calc-result" id="rank-result"></div>
                         </div>`;
                     break;
 
@@ -731,7 +1104,7 @@ cx + dy = f</code></pre>
                                 <input type="text" id="sys-b" placeholder="5,1" value="5,1">
                             </div>
                             <div class="calc-buttons">
-                                <button onclick="calcSystem()">Solve Ax = b</button>
+                                <button onclick="calcSystem()">Selesaikan Ax = b</button>
                             </div>
                             <div class="calc-result" id="sys-result"></div>
                         </div>`;
@@ -759,11 +1132,11 @@ cx + dy = f</code></pre>
                     html += `
                         <div class="calculator">
                             <div class="calc-row">
-                                <label>Matrix 2×2:</label>
+                                <label>Matriks 2×2:</label>
                                 <input type="text" id="eigen-m" placeholder="3,1;0,2" value="3,1;0,2">
                             </div>
                             <div class="calc-buttons">
-                                <button onclick="calcEigenvalues()">Eigenvalues & Eigenvectors</button>
+                                <button onclick="calcEigenvalues()">Cari Nilai Eigen & Vektor Eigen</button>
                             </div>
                             <div class="calc-result" id="eigen-result"></div>
                         </div>`;
@@ -799,12 +1172,12 @@ cx + dy = f</code></pre>
                     el.innerHTML = `<div class="success"><pre>${JSON.stringify(result.result, null, 2)}</pre></div>`;
                 } else if (result.eigenvalues) {
                     el.innerHTML = `<div class="success">
-                        <p><strong>Eigenvalues:</strong> ${result.eigenvalues.join(', ')}</p>
-                        <p><strong>Eigenvectors:</strong></p>
+                        <p><strong>Nilai Eigen:</strong> ${result.eigenvalues.join(', ')}</p>
+                        <p><strong>Vektor Eigen:</strong></p>
                         ${result.eigenvectors.map((v, i) => `<p>v${i+1} = ${v}</p>`).join('')}
                     </div>`;
                 } else {
-                    el.innerHTML = `<div class="success"><strong>Result:</strong> ${result.result}</div>`;
+                    el.innerHTML = `<div class="success"><strong>Hasil:</strong> ${result.result}</div>`;
                 }
             } else {
                 el.innerHTML = `<div class="error">Error: ${result.error}</div>`;
@@ -844,6 +1217,13 @@ cx + dy = f</code></pre>
             showResult('mag-result', result);
         }
 
+        async function calcCrossProduct() {
+            const v1 = parseVector(document.getElementById('cross-a').value);
+            const v2 = parseVector(document.getElementById('cross-b').value);
+            const result = await apiCall('cross_product', {v1, v2});
+            showResult('cross-result', result);
+        }
+
         async function calcMatrix(op) {
             const m1 = parseMatrix(document.getElementById('mat-a').value);
             const m2 = parseMatrix(document.getElementById('mat-b').value);
@@ -872,6 +1252,12 @@ cx + dy = f</code></pre>
             const m = parseMatrix(document.getElementById('inv-m').value);
             const result = await apiCall('matrix_inverse', {m});
             showResult('inv-result', result);
+        }
+
+        async function calcRank() {
+            const m = parseMatrix(document.getElementById('rank-m').value);
+            const result = await apiCall('matrix_rank', {m});
+            showResult('rank-result', result);
         }
 
         async function calcSystem() {

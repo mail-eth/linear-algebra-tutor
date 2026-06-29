@@ -54,6 +54,12 @@ def eigenvalues_eigenvectors(matrix):
 def solve_linear_system(A, b):
     return np.linalg.solve(A, b)
 
+def cross_product(v1, v2):
+    return np.cross(v1, v2)
+
+def matrix_rank(matrix):
+    return np.linalg.matrix_rank(matrix)
+
 
 def format_number(n):
     """Format number to remove unnecessary decimals."""
@@ -80,25 +86,27 @@ def format_matrix(m):
     return [[format_number(m[i][j]) for j in range(len(m[i]))] for i in range(len(m))]
 
 
-# Lesson data
+# Lesson data - Indonesian
 LESSONS = {
     'vectors': {
-        'title': '📐 Vector',
+        'title': '📐 Vektor',
         'topics': [
-            {'id': 'what-is-vector', 'title': 'Apa itu Vector?'},
-            {'id': 'vector-operations', 'title': 'Operasi Vector'},
-            {'id': 'dot-product', 'title': 'Dot Product'},
-            {'id': 'magnitude', 'title': 'Magnitude & Normalisasi'},
+            {'id': 'what-is-vector', 'title': 'Apa itu Vektor?'},
+            {'id': 'vector-operations', 'title': 'Operasi Vektor'},
+            {'id': 'dot-product', 'title': 'Produk Titik (Dot Product)'},
+            {'id': 'magnitude', 'title': 'Panjang & Normalisasi'},
+            {'id': 'cross-product', 'title': 'Produk Silang (Cross Product)'},
         ]
     },
     'matrices': {
-        'title': '📊 Matrix',
+        'title': '📊 Matriks',
         'topics': [
-            {'id': 'what-is-matrix', 'title': 'Apa itu Matrix?'},
-            {'id': 'matrix-operations', 'title': 'Operasi Matrix'},
-            {'id': 'transpose', 'title': 'Transpose Matrix'},
-            {'id': 'determinant', 'title': 'Determinant'},
-            {'id': 'inverse', 'title': 'Inverse Matrix'},
+            {'id': 'what-is-matrix', 'title': 'Apa itu Matriks?'},
+            {'id': 'matrix-operations', 'title': 'Operasi Matriks'},
+            {'id': 'transpose', 'title': 'Transpose Matriks'},
+            {'id': 'determinant', 'title': 'Determinan'},
+            {'id': 'inverse', 'title': 'Invers Matriks'},
+            {'id': 'rank', 'title': 'Rank Matriks'},
         ]
     },
     'systems': {
@@ -112,12 +120,13 @@ LESSONS = {
         ]
     },
     'eigenvalues': {
-        'title': '🔢 Eigenvalues & Eigenvectors',
+        'title': '🔢 Nilai Eigen',
         'topics': [
-            {'id': 'what-is-eigen', 'title': 'Apa itu Eigenvalues?'},
-            {'id': 'finding-eigenvalues', 'title': 'Mencari Eigenvalues'},
-            {'id': 'finding-eigenvectors', 'title': 'Mencari Eigenvectors'},
-            {'id': 'verification', 'title': 'Verifikasi Eigenvalues'},
+            {'id': 'what-is-eigen', 'title': 'Apa itu Nilai Eigen?'},
+            {'id': 'finding-eigenvalues', 'title': 'Mencari Nilai Eigen'},
+            {'id': 'finding-eigenvectors', 'title': 'Mencari Vektor Eigen'},
+            {'id': 'verification', 'title': 'Verifikasi Nilai Eigen'},
+            {'id': 'diagonalization', 'title': 'Diagonalisasi Matriks'},
         ]
     }
 }
@@ -195,6 +204,12 @@ def calculate():
             result = vector_normalize(v)
             return jsonify({'success': True, 'result': format_vector(result)})
 
+        elif operation == 'cross_product':
+            v1 = create_vector(*params['v1'])
+            v2 = create_vector(*params['v2'])
+            result = cross_product(v1, v2)
+            return jsonify({'success': True, 'result': format_vector(result)})
+
         elif operation == 'matrix_add':
             m1 = create_matrix(params['m1'])
             m2 = create_matrix(params['m2'])
@@ -221,6 +236,11 @@ def calculate():
             m = create_matrix(params['m'])
             result = matrix_inverse(m)
             return jsonify({'success': True, 'result': format_matrix(result)})
+
+        elif operation == 'matrix_rank':
+            m = create_matrix(params['m'])
+            result = int(matrix_rank(m))
+            return jsonify({'success': True, 'result': result})
 
         elif operation == 'eigenvalues':
             m = create_matrix(params['m'])

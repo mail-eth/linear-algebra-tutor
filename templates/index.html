@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Algebra Tutor</title>
+    <title>Tutor Aljabar Linear</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
 </head>
 <body>
@@ -14,7 +14,7 @@
                 <span class="btn-minimize"></span>
                 <span class="btn-maximize"></span>
             </div>
-            <div class="terminal-title">linear-algebra-tutor — bash</div>
+            <div class="terminal-title">tutor-aljabar-linear — bash</div>
         </div>
 
         <div class="terminal-body">
@@ -22,8 +22,8 @@
                 <pre class="ascii-art">
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
-║  📐 Linear Algebra Tutor                                                     ║
-║  Belajar Linear Algebra Step-by-Step                                         ║
+║  📐 Tutor Aljabar Linear                                                     ║
+║  Belajar Aljabar Linear Langkah demi Langkah                                 ║
 ║                                                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
                 </pre>
@@ -50,7 +50,11 @@
                             {% endfor %}
                             <tr class="menu-item" onclick="showQuiz()">
                                 <td>{{ lessons|length + 1 }}</td>
-                                <td>🎯 Quick Quiz</td>
+                                <td>🎯 Kuis Cepat</td>
+                            </tr>
+                            <tr class="menu-item" onclick="showAbout()">
+                                <td>{{ lessons|length + 2 }}</td>
+                                <td>ℹ️ Tentang Aplikasi</td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,21 +63,65 @@
                 <div id="quiz-section" class="hidden">
                     <div class="prompt-line">
                         <span class="prompt">$</span>
-                        <span class="command">./quick_quiz.sh</span>
+                        <span class="command">./kuis_cepat.sh</span>
                     </div>
                     <div class="quiz-content">
                         <!-- Quiz content will be loaded here -->
                     </div>
                 </div>
+
+                <div id="about-section" class="hidden">
+                    <div class="prompt-line">
+                        <span class="prompt">$</span>
+                        <span class="command">cat tentang.txt</span>
+                    </div>
+                    <div class="about-content">
+                        <div class="section">
+                            <h3 class="section-title">Tentang Aplikasi</h3>
+                            <div class="section-content">
+                                <p><strong>Tutor Aljabar Linear</strong> adalah aplikasi web interaktif untuk belajar aljabar linear langkah demi langkah.</p>
+
+                                <h4>Fitur:</h4>
+                                <ul>
+                                    <li>Penjelasan konsep dengan notasi matematika</li>
+                                    <li>Contoh interaktif dengan perhitungan langkah demi langkah</li>
+                                    <li>Kalkulator untuk latihan</li>
+                                    <li>Kuis untuk menguji pemahaman</li>
+                                </ul>
+
+                                <h4>Topik yang Tersedia:</h4>
+                                <ul>
+                                    <li>📐 Vektor - Konsep dasar, operasi, dot product</li>
+                                    <li>📊 Matriks - Operasi, determinan, invers</li>
+                                    <li>📝 Sistem Persamaan - Substitusi, eliminasi, Cramer</li>
+                                    <li>🔢 Nilai Eigen - Eigenvalue dan eigenvector</li>
+                                </ul>
+
+                                <h4>Teknologi:</h4>
+                                <ul>
+                                    <li>Backend: Flask (Python)</li>
+                                    <li>Frontend: HTML, CSS, JavaScript</li>
+                                    <li>Matematika: NumPy, MathJax</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="input-area">
-                <span class="prompt">user@linear-algebra:~$</span>
+                <span class="prompt">user@aljabar-linear:~$</span>
                 <span class="cursor">█</span>
             </div>
         </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        function showAbout() {
+            const section = document.getElementById('about-section');
+            section.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>

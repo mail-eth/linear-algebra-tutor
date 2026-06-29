@@ -1,4 +1,4 @@
-/* Linear Algebra Tutor - JavaScript */
+/* Tutor Aljabar Linear - JavaScript */
 
 // Show quiz section
 function showQuiz() {
@@ -18,19 +18,22 @@ function loadQuizContent() {
 
     quizContent.innerHTML = `
         <div class="section">
-            <h3 class="section-title">🎯 Quick Quiz - Linear Algebra</h3>
+            <h3 class="section-title">🎯 Kuis Cepat - Aljabar Linear</h3>
             <div class="section-content">
-                <h4>Soal 1 - Vector:</h4>
-                <p>Berapa dot product dari A = [1, 2] dan B = [3, 4]?</p>
+                <h4>Soal 1 - Vektor:</h4>
+                <p>Berapa produk titik dari A = [1, 2] dan B = [3, 4]?</p>
 
-                <h4>Soal 2 - Matrix:</h4>
+                <h4>Soal 2 - Matriks:</h4>
                 <p>Berapa determinan dari A = [[1,2],[3,4]]?</p>
 
                 <h4>Soal 3 - Sistem Persamaan:</h4>
                 <p>Selesaikan: x + y = 5, x - y = 1</p>
 
-                <h4>Soal 4 - Eigenvalues:</h4>
-                <p>Berapa eigenvalue dari A = [[2,0],[0,3]]?</p>
+                <h4>Soal 4 - Nilai Eigen:</h4>
+                <p>Berapa nilai eigen dari A = [[2,0],[0,3]]?</p>
+
+                <h4>Soal 5 - Vektor Eigen:</h4>
+                <p>Jika A = [[2,0],[0,3]], berapa vektor eigen untuk λ = 2?</p>
             </div>
         </div>
 
@@ -39,15 +42,23 @@ function loadQuizContent() {
             <div class="section-content">
                 <h4>Soal 1:</h4>
                 <p>A · B = (1×3) + (2×4) = 3 + 8 = <strong>11</strong></p>
+                <p>Penjelasan: Produk titik dihitung dengan menjumlahkan hasil kali komponen-komponen yang bersesuaian.</p>
 
                 <h4>Soal 2:</h4>
                 <p>det(A) = (1×4) - (2×3) = 4 - 6 = <strong>-2</strong></p>
+                <p>Penjelasan: Determinan matriks 2×2 dihitung dengan rumus ad - bc.</p>
 
                 <h4>Soal 3:</h4>
                 <p>x = 3, y = 2</p>
+                <p>Penjelasan: Jumlahkan kedua persamaan: 2x = 6, sehingga x = 3. Substitusi: 3 + y = 5, y = 2.</p>
 
                 <h4>Soal 4:</h4>
-                <p>Untuk matrix diagonal, eigenvalue = elemen diagonal: <strong>2 dan 3</strong></p>
+                <p>Untuk matriks diagonal, nilai eigen = elemen diagonal: <strong>2 dan 3</strong></p>
+                <p>Penjelasan: Matriks diagonal memiliki nilai eigen pada elemen diagonal utamanya.</p>
+
+                <h4>Soal 5:</h4>
+                <p>Vektor eigen untuk λ = 2: <strong>[1, 0]</strong></p>
+                <p>Penjelasan: (A - 2I)v = 0 → [[0,0],[0,1]]v = 0 → v₂ = 0, v₁ bebas → pilih v₁ = 1.</p>
             </div>
         </div>
     `;
@@ -129,5 +140,5 @@ function formatVectorDisplay(vector) {
 
 // Console-like log (for debugging)
 function consoleLog(message) {
-    console.log('%c[Linear Algebra Tutor]', 'color: #00ff41; font-weight: bold;', message);
+    console.log('%c[Tutor Aljabar Linear]', 'color: #00ff41; font-weight: bold;', message);
 }
