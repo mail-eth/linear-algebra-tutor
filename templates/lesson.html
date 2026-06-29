@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic.title }} - Linear Algebra Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="btn-close" onclick="window.location='/'"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+            </div>
+            <div class="terminal-title">{{ topic.title }} — linear-algebra-tutor</div>
+        </div>
+
+        <div class="terminal-body">
+            <div class="output">
+                <!-- Navigation -->
+                <div class="prompt-line">
+                    <span class="prompt">$</span>
+                    <span class="command">cd ~/{{ category }}</span>
+                    <a href="/" class="nav-link">[back to home]</a>
+                </div>
+
+                <!-- Lesson Menu -->
+                <div class="lesson-nav">
+                    {% for t in lesson.topics %}
+                    <a href="/lesson/{{ category }}/{{ t.id }}"
+                       class="lesson-link {% if t.id == topic.id %}active{% endif %}">
+                        {{ loop.index }}. {{ t.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <div class="separator">═══════════════════════════════════════════════════════════════════════════════</div>
+
+                <!-- Lesson Content -->
+                <div class="lesson-content" id="lesson-content">
+                    <!-- Content will be loaded dynamically -->
+                    <div class="loading">Loading lesson...</div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <span class="prompt">user@linear-algebra:~$</span>
+                <span class="cursor">█</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const category = '{{ category }}';
+        const topicId = '{{ topic.id }}';
+
+        // Lesson content data
+        const lessonContent = {
+            // VECTORS
+            'what-is-vector': {
+                title: 'Apa itu Vector?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Definisi Vector',
+                        content: `<p><strong>Vector</strong> adalah objek matematika yang memiliki <strong>besar (magnitude)</strong> dan <strong>arah (direction)</strong>.</p>
+<p>Dalam linear algebra, vector direpresentasikan sebagai <strong>daftar angka</strong> yang disusun secara vertikal atau horizontal.</p>
+<h4>Contoh:</h4>
+<ul>
+<li>Vector 2D: <code>[3, 4]</code> → titik di koordinat (3, 4)</li>
+<li>Vector 3D: <code>[1, 2, 3]</code> → titik di ruang 3 dimensi</li>
+</ul>
+<h4>Notasi:</h4>
+<p>$$\\vec{v} = \\begin{bmatrix} 3 \\\\ 4 \\end{bmatrix}$$</p>`
+                    },
+                    {
+                        type: 'example',
+                        title: 'Contoh Interaktif',
+                        content: `<p>Mari kita lihat contoh vector:</p>`,
+                        interactive: {
+                            type: 'vector_display',
+                            vectors: [
+                                {name: 'A', values: [3, 4], color: '#00ff00'},
+                                {name: 'B', values: [1, 2], color: '#00ffff'}
+                            ]
+                        }
+                    }
+                ]
+            },
+
+            'vector-operations': {
+                title: 'Operasi Vector',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Operasi Dasar Vector',
+                        content: `<h4>1. Penjumlahan Vector</h4>
+<p>$\\vec{A} + \\vec{B}$ dilakukan secara komponen per komponen.</p>
+<p>Jika $\\vec{A} = [a_1, a_2]$ dan $\\vec{B} = [b_1, b_2]$, maka:</p>
+<p>$$\\vec{A} + \\vec{B} = [a_1 + b_1, a_2 + b_2]$$</p>
+
+<h4>2. Pengurangan Vector</h4>
+<p>$$\\vec{A} - \\vec{B} = [a_1 - b_1, a_2 - b_2]$$</p>
+
+<h4>3. Perkalian Skalar</h4>
+<p>$$c \\times \\vec{A} = [c \\times a_1, c \\times a_2]$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Kalkulator Vector',
+                        content: `<p>Coba sendiri! Masukkan vector dan operasi:</p>`,
+                        interactive: {
+                            type: 'vector_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'dot-product': {
+                title: 'Dot Product',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Dot Product?',
+                        content: `<p><strong>Dot Product</strong> (perkalian titik) adalah operasi yang menghasilkan <strong>skalar</strong> (angka tunggal) dari dua vector.</p>
+
+<h4>Rumus:</h4>
+<p>$$\\vec{A} \\cdot \\vec{B} = a_1 b_1 + a_2 b_2$$</p>
+
+<h4>Interpretasi Geometris:</h4>
+<p>$$\\vec{A} \\cdot \\vec{B} = |\\vec{A}| \\times |\\vec{B}| \\times \\cos(\\theta)$$</p>
+
+<h4>Artinya:</h4>
+<ul>
+<li>Jika $\\vec{A} \\cdot \\vec{B} > 0$ → sudut &lt; 90° (searah)</li>
+<li>Jika $\\vec{A} \\cdot \\vec{B} = 0$ → sudut = 90° (tegak lurus)</li>
+<li>Jika $\\vec{A} \\cdot \\vec{B} &lt; 0$ → sudut &gt; 90° (berlawanan arah)</li>
+</ul>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Hitung Dot Product',
+                        interactive: {
+                            type: 'dot_product_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'magnitude': {
+                title: 'Magnitude & Normalisasi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Magnitude (Panjang Vector)',
+                        content: `<p><strong>Magnitude</strong> atau panjang vector dihitung menggunakan teorema Pythagoras.</p>
+
+<h4>Rumus (2D):</h4>
+<p>$$|\\vec{A}| = \\sqrt{a_1^2 + a_2^2}$$</p>
+
+<h4>Normalisasi:</h4>
+<p><strong>Vector satuan</strong> (unit vector) adalah vector dengan panjang = 1.</p>
+<p>$$\\hat{A} = \\frac{\\vec{A}}{|\\vec{A}|}$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Hitung Magnitude & Normalisasi',
+                        interactive: {
+                            type: 'magnitude_calculator'
+                        }
+                    }
+                ]
+            },
+
+            // MATRICES
+            'what-is-matrix': {
+                title: 'Apa itu Matrix?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Definisi Matrix',
+                        content: `<p><strong>Matrix</strong> adalah susunan angka dalam bentuk <strong>baris dan kolom</strong>.</p>
+
+<h4>Notasi:</h4>
+<p>$$A = \\begin{bmatrix} a_{11} & a_{12} \\\\ a_{21} & a_{22} \\end{bmatrix}$$</p>
+
+<h4>Jenis Matrix:</h4>
+<ul>
+<li><strong>Matrix 2×2</strong>: 2 baris, 2 kolom</li>
+<li><strong>Matrix persegi</strong>: jumlah baris = kolom</li>
+<li><strong>Matrix identitas (I)</strong>: diagonal = 1, lainnya = 0</li>
+</ul>
+
+<h4>Contoh Matrix Identitas 3×3:</h4>
+<p>$$I = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Lihat Matrix',
+                        interactive: {
+                            type: 'matrix_display',
+                            matrices: [
+                                {name: 'A (2×2)', values: [[1, 2], [3, 4]]},
+                                {name: 'I (Identitas 3×3)', values: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]}
+                            ]
+                        }
+                    }
+                ]
+            },
+
+            'matrix-operations': {
+                title: 'Operasi Matrix',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Operasi Dasar Matrix',
+                        content: `<h4>1. Penjumlahan Matrix</h4>
+<p>Hanya bisa dilakukan pada matrix dengan <strong>ukuran sama</strong>.</p>
+<p>$$C = A + B \\rightarrow c_{ij} = a_{ij} + b_{ij}$$</p>
+
+<h4>2. Perkalian Matrix</h4>
+<p><strong>PENTING</strong>: Perkalian matrix <strong>tidak komutatif</strong>!</p>
+<p>$$A \\times B \\neq B \\times A$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Kalkulator Matrix',
+                        interactive: {
+                            type: 'matrix_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'transpose': {
+                title: 'Transpose Matrix',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Transpose Matrix',
+                        content: `<p><strong>Transpose</strong> adalah operasi yang <strong>menukar baris dan kolom</strong>.</p>
+
+<h4>Notasi:</h4>
+<p>$$A^T$$</p>
+
+<h4>Aturan:</h4>
+<p>Jika $A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$</p>
+<p>Maka $A^T = \\begin{bmatrix} a & c \\\\ b & d \\end{bmatrix}$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Hitung Transpose',
+                        interactive: {
+                            type: 'transpose_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'determinant': {
+                title: 'Determinant',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Determinant?',
+                        content: `<p><strong>Determinant</strong> adalah angka yang dihitung dari matrix persegi.</p>
+
+<h4>Untuk Matrix 2×2:</h4>
+<p>$$det\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} = ad - bc$$</p>
+
+<h4>Interpretasi:</h4>
+<ul>
+<li><strong>det(A) ≠ 0</strong>: Matrix bisa di-inverse</li>
+<li><strong>det(A) = 0</strong>: Matrix singular</li>
+</ul>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Hitung Determinant',
+                        interactive: {
+                            type: 'determinant_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'inverse': {
+                title: 'Inverse Matrix',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Apa itu Inverse?',
+                        content: `<p><strong>Inverse Matrix</strong> adalah matrix yang jika dikalikan dengan matrix asli, menghasilkan matrix identitas.</p>
+
+<h4>Notasi:</h4>
+<p>$$A^{-1}$$</p>
+
+<h4>Syarat:</h4>
+<ul>
+<li>Matrix harus <strong>persegi</strong></li>
+<li><strong>det(A) ≠ 0</strong></li>
+</ul>
+
+<h4>Sifat:</h4>
+<p>$$A \\times A^{-1} = I$$</p>
+
+<h4>Rumus 2×2:</h4>
+<p>$$A^{-1} = \\frac{1}{det(A)} \\begin{bmatrix} d & -b \\\\ -c & a \\end{bmatrix}$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Hitung Inverse',
+                        interactive: {
+                            type: 'inverse_calculator'
+                        }
+                    }
+                ]
+            },
+
+            // SYSTEMS
+            'what-is-system': {
+                title: 'Apa itu Sistem Persamaan Linear?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Definisi Sistem Persamaan Linear',
+                        content: `<p><strong>Sistem Persamaan Linear</strong> adalah kumpulan persamaan linear yang memiliki variabel yang sama.</p>
+
+<h4>Contoh:</h4>
+<pre><code>2x + 3y = 8
+4x -  y = 2</code></pre>
+
+<h4>Representasi Matrix (Ax = b):</h4>
+<p>$$\\begin{bmatrix} 2 & 3 \\\\ 4 & -1 \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\end{bmatrix} = \\begin{bmatrix} 8 \\\\ 2 \\end{bmatrix}$$</p>
+
+<h4>Jenis Solusi:</h4>
+<ul>
+<li><strong>Solusi unik</strong>: Satu titik potong</li>
+<li><strong>Tidak ada solusi</strong>: Garis sejajar</li>
+<li><strong>Tak hingga solusi</strong>: Garis berimpit</li>
+</ul>`
+                    }
+                ]
+            },
+
+            'substitution': {
+                title: 'Metode Substitusi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Metode Substitusi',
+                        content: `<h4>Langkah-langkah:</h4>
+<ol>
+<li><strong>Isolasi</strong> satu variabel dari salah satu persamaan</li>
+<li><strong>Substitusi</strong> ke persamaan lain</li>
+<li><strong>Selesaikan</strong> untuk variabel tersisa</li>
+<li><strong>Substitusi balik</strong> untuk mendapatkan variabel pertama</li>
+</ol>
+
+<h4>Contoh:</h4>
+<pre><code>x + 2y = 5  ... (1)
+3x - y = 1  ... (2)</code></pre>
+
+<p>Dari (1): x = 5 - 2y</p>
+<p>Substitusi ke (2): 3(5 - 2y) - y = 1</p>
+<p>15 - 6y - y = 1</p>
+<p>-7y = -14</p>
+<p>y = 2</p>
+<p>x = 5 - 2(2) = 1</p>
+
+<p><strong>Solusi: x = 1, y = 2</strong></p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Coba Metode Substitusi',
+                        interactive: {
+                            type: 'system_solver'
+                        }
+                    }
+                ]
+            },
+
+            'elimination': {
+                title: 'Metode Eliminasi',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Metode Eliminasi',
+                        content: `<h4>Langkah-langkah:</h4>
+<ol>
+<li><strong>Samakan koefisien</strong> salah satu variabel</li>
+<li><strong>Jumlah/kurangkan</strong> persamaan untuk eliminasi variabel</li>
+<li><strong>Selesaikan</strong> untuk variabel tersisa</li>
+<li><strong>Substitusi</strong> untuk variabel lain</li>
+</ol>
+
+<h4>Contoh:</h4>
+<pre><code>2x + 3y = 8  ... (1)
+4x -  y = 2  ... (2)</code></pre>
+
+<p>Kalikan (2) dengan 3: 12x - 3y = 6</p>
+<p>Jumlahkan dengan (1): 14x = 14</p>
+<p>x = 1, y = 2</p>`
+                    }
+                ]
+            },
+
+            'gaussian': {
+                title: 'Eliminasi Gauss',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Eliminasi Gauss',
+                        content: `<p>Eliminasi Gauss mengubah sistem persamaan menjadi <strong>bentuk segitiga atas</strong>.</p>
+
+<h4>Operasi Baris Elementer:</h4>
+<ol>
+<li>Tukar dua baris</li>
+<li>Kalikan baris dengan konstanta</li>
+<li>Jumlahkan dua baris</li>
+</ol>
+
+<h4>Contoh 3×3:</h4>
+<pre><code>x + 2y + 3z = 9
+2x + 5y + 7z = 21
+3x + 7y + 9z = 27</code></pre>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Coba Eliminasi Gauss',
+                        interactive: {
+                            type: 'gaussian_solver'
+                        }
+                    }
+                ]
+            },
+
+            'cramers-rule': {
+                title: 'Aturan Cramer',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Aturan Cramer',
+                        content: `<h4>Rumus:</h4>
+<p>Untuk sistem $Ax = b$:</p>
+<p>$$x_i = \\frac{det(A_i)}{det(A)}$$</p>
+
+<p>Di mana $A_i$ adalah matrix A dengan kolom ke-i diganti oleh vector b.</p>
+
+<h4>Contoh 2×2:</h4>
+<pre><code>ax + by = e
+cx + dy = f</code></pre>
+
+<p>$$x = \\frac{ed - bf}{ad - bc}$$</p>
+<p>$$y = \\frac{af - ce}{ad - bc}$$</p>`
+                    }
+                ]
+            },
+
+            // EIGENVALUES
+            'what-is-eigen': {
+                title: 'Apa itu Eigenvalues?',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Eigenvalues & Eigenvectors',
+                        content: `<p><strong>Eigenvalue (λ)</strong>: Skalar yang menunjukkan seberapa besar vector di-stretch.</p>
+<p><strong>Eigenvector (v)</strong>: Vector yang arahnya <strong>tidak berubah</strong> setelah transformasi.</p>
+
+<h4>Persamaan Fundamental:</h4>
+<p>$$Av = \\lambda v$$</p>
+
+<h4>Interpretasi:</h4>
+<ul>
+<li>Eigenvector menunjukkan <strong>arah yang tetap</strong></li>
+<li>Eigenvalue menunjukkan <strong>faktor scaling</strong></li>
+</ul>`
+                    }
+                ]
+            },
+
+            'finding-eigenvalues': {
+                title: 'Mencari Eigenvalues',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Cara Mencari Eigenvalues',
+                        content: `<h4>Langkah-langkah:</h4>
+<ol>
+<li>Tulis persamaan karakteristik: $det(A - \\lambda I) = 0$</li>
+<li>Selesaikan polinomial untuk λ</li>
+</ol>
+
+<h4>Contoh:</h4>
+<p>$$A = \\begin{bmatrix} 3 & 1 \\\\ 0 & 2 \\end{bmatrix}$$</p>
+<p>$$det(A - \\lambda I) = (3-\\lambda)(2-\\lambda) = 0$$</p>
+<p>Eigenvalues: $\\lambda_1 = 3, \\lambda_2 = 2$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Cari Eigenvalues',
+                        interactive: {
+                            type: 'eigenvalue_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'finding-eigenvectors': {
+                title: 'Mencari Eigenvectors',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Cara Mencari Eigenvectors',
+                        content: `<p>Setelah menemukan eigenvalue λ:</p>
+<ol>
+<li>Substitusi λ ke $(A - \\lambda I)v = 0$</li>
+<li>Selesaikan sistem homogen untuk v</li>
+</ol>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Cari Eigenvectors',
+                        interactive: {
+                            type: 'eigenvector_calculator'
+                        }
+                    }
+                ]
+            },
+
+            'verification': {
+                title: 'Verifikasi Eigenvalues',
+                sections: [
+                    {
+                        type: 'concept',
+                        title: 'Verifikasi Av = λv',
+                        content: `<p>Untuk setiap pasangan eigenvalue-eigenvector, pastikan:</p>
+<p>$$Av = \\lambda v$$</p>`
+                    },
+                    {
+                        type: 'interactive',
+                        title: 'Verifikasi',
+                        interactive: {
+                            type: 'eigenvalue_calculator'
+                        }
+                    }
+                ]
+            }
+        };
+
+        // Render lesson content
+        function renderLesson() {
+            const content = lessonContent[topicId];
+            if (!content) {
+                document.getElementById('lesson-content').innerHTML = '<div class="error">Lesson not found</div>';
+                return;
+            }
+
+            let html = `<h2 class="lesson-title">${content.title}</h2>`;
+
+            content.sections.forEach(section => {
+                html += `<div class="section">`;
+                html += `<h3 class="section-title">▸ ${section.title}</h3>`;
+                html += `<div class="section-content">${section.content}</div>`;
+
+                if (section.interactive) {
+                    html += renderInteractive(section.interactive);
+                }
+
+                html += `</div>`;
+            });
+
+            document.getElementById('lesson-content').innerHTML = html;
+
+            // Re-render MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Render interactive elements
+        function renderInteractive(interactive) {
+            let html = '<div class="interactive">';
+
+            switch (interactive.type) {
+                case 'vector_display':
+                    html += '<div class="vector-display">';
+                    interactive.vectors.forEach(v => {
+                        html += `<div class="vector-item" style="color: ${v.color}">
+                            <span class="vector-name">${v.name}</span> = <code>[${v.values.join(', ')}]</code>
+                        </div>`;
+                    });
+                    html += '</div>';
+                    break;
+
+                case 'vector_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Vector A:</label>
+                                <input type="text" id="vec-a" placeholder="3, 4" value="3, 4">
+                            </div>
+                            <div class="calc-row">
+                                <label>Vector B:</label>
+                                <input type="text" id="vec-b" placeholder="1, 2" value="1, 2">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcVector('add')">A + B</button>
+                                <button onclick="calcVector('subtract')">A - B</button>
+                                <button onclick="calcVector('scalar')">2 × A</button>
+                            </div>
+                            <div class="calc-result" id="vector-result"></div>
+                        </div>`;
+                    break;
+
+                case 'dot_product_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Vector A:</label>
+                                <input type="text" id="dot-a" placeholder="3, 4" value="3, 4">
+                            </div>
+                            <div class="calc-row">
+                                <label>Vector B:</label>
+                                <input type="text" id="dot-b" placeholder="1, 2" value="1, 2">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcDotProduct()">Hitung A · B</button>
+                            </div>
+                            <div class="calc-result" id="dot-result"></div>
+                        </div>`;
+                    break;
+
+                case 'magnitude_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Vector:</label>
+                                <input type="text" id="mag-v" placeholder="3, 4" value="3, 4">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcMagnitude()">|v|</button>
+                                <button onclick="calcNormalize()">Normalize</button>
+                            </div>
+                            <div class="calc-result" id="mag-result"></div>
+                        </div>`;
+                    break;
+
+                case 'matrix_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Matrix A (baris dipisah ; kolom dipisah ,):</label>
+                                <input type="text" id="mat-a" placeholder="1,2;3,4" value="1,2;3,4">
+                            </div>
+                            <div class="calc-row">
+                                <label>Matrix B:</label>
+                                <input type="text" id="mat-b" placeholder="5,6;7,8" value="5,6;7,8">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcMatrix('add')">A + B</button>
+                                <button onclick="calcMatrix('multiply')">A × B</button>
+                            </div>
+                            <div class="calc-result" id="matrix-result"></div>
+                        </div>`;
+                    break;
+
+                case 'transpose_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Matrix:</label>
+                                <input type="text" id="trans-m" placeholder="1,2,3;4,5,6" value="1,2,3;4,5,6">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcTranspose()">Transpose</button>
+                            </div>
+                            <div class="calc-result" id="trans-result"></div>
+                        </div>`;
+                    break;
+
+                case 'determinant_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Matrix 2×2:</label>
+                                <input type="text" id="det-m" placeholder="1,2;3,4" value="1,2;3,4">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcDeterminant()">det(A)</button>
+                            </div>
+                            <div class="calc-result" id="det-result"></div>
+                        </div>`;
+                    break;
+
+                case 'inverse_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Matrix 2×2:</label>
+                                <input type="text" id="inv-m" placeholder="1,2;3,4" value="1,2;3,4">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcInverse()">A⁻¹</button>
+                            </div>
+                            <div class="calc-result" id="inv-result"></div>
+                        </div>`;
+                    break;
+
+                case 'system_solver':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Koefisien A (baris ; kolom ,):</label>
+                                <input type="text" id="sys-a" placeholder="1,2;3,-1" value="1,2;3,-1">
+                            </div>
+                            <div class="calc-row">
+                                <label>Hasil b (pisahkan ,):</label>
+                                <input type="text" id="sys-b" placeholder="5,1" value="5,1">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcSystem()">Solve Ax = b</button>
+                            </div>
+                            <div class="calc-result" id="sys-result"></div>
+                        </div>`;
+                    break;
+
+                case 'gaussian_solver':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Koefisien A:</label>
+                                <input type="text" id="gauss-a" placeholder="1,2,3;2,5,7;3,7,9" value="1,2,3;2,5,7;3,7,9">
+                            </div>
+                            <div class="calc-row">
+                                <label>Hasil b:</label>
+                                <input type="text" id="gauss-b" placeholder="9,21,27" value="9,21,27">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcGaussian()">Eliminasi Gauss</button>
+                            </div>
+                            <div class="calc-result" id="gauss-result"></div>
+                        </div>`;
+                    break;
+
+                case 'eigenvalue_calculator':
+                    html += `
+                        <div class="calculator">
+                            <div class="calc-row">
+                                <label>Matrix 2×2:</label>
+                                <input type="text" id="eigen-m" placeholder="3,1;0,2" value="3,1;0,2">
+                            </div>
+                            <div class="calc-buttons">
+                                <button onclick="calcEigenvalues()">Eigenvalues & Eigenvectors</button>
+                            </div>
+                            <div class="calc-result" id="eigen-result"></div>
+                        </div>`;
+                    break;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // Calculator functions
+        function parseVector(str) {
+            return str.split(',').map(s => parseFloat(s.trim()));
+        }
+
+        function parseMatrix(str) {
+            return str.split(';').map(row => row.split(',').map(s => parseFloat(s.trim())));
+        }
+
+        async function apiCall(operation, params) {
+            const response = await fetch('/api/calculate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({operation, params})
+            });
+            return await response.json();
+        }
+
+        function showResult(elementId, result) {
+            const el = document.getElementById(elementId);
+            if (result.success) {
+                if (Array.isArray(result.result)) {
+                    el.innerHTML = `<div class="success"><pre>${JSON.stringify(result.result, null, 2)}</pre></div>`;
+                } else if (result.eigenvalues) {
+                    el.innerHTML = `<div class="success">
+                        <p><strong>Eigenvalues:</strong> ${result.eigenvalues.join(', ')}</p>
+                        <p><strong>Eigenvectors:</strong></p>
+                        ${result.eigenvectors.map((v, i) => `<p>v${i+1} = ${v}</p>`).join('')}
+                    </div>`;
+                } else {
+                    el.innerHTML = `<div class="success"><strong>Result:</strong> ${result.result}</div>`;
+                }
+            } else {
+                el.innerHTML = `<div class="error">Error: ${result.error}</div>`;
+            }
+        }
+
+        async function calcVector(op) {
+            const v1 = parseVector(document.getElementById('vec-a').value);
+            const v2 = parseVector(document.getElementById('vec-b').value);
+            let result;
+            if (op === 'add') {
+                result = await apiCall('vector_add', {v1, v2});
+            } else if (op === 'subtract') {
+                result = await apiCall('vector_subtract', {v1, v2});
+            } else if (op === 'scalar') {
+                result = await apiCall('scalar_multiply', {scalar: 2, v: v1});
+            }
+            showResult('vector-result', result);
+        }
+
+        async function calcDotProduct() {
+            const v1 = parseVector(document.getElementById('dot-a').value);
+            const v2 = parseVector(document.getElementById('dot-b').value);
+            const result = await apiCall('dot_product', {v1, v2});
+            showResult('dot-result', result);
+        }
+
+        async function calcMagnitude() {
+            const v = parseVector(document.getElementById('mag-v').value);
+            const result = await apiCall('vector_magnitude', {v});
+            showResult('mag-result', result);
+        }
+
+        async function calcNormalize() {
+            const v = parseVector(document.getElementById('mag-v').value);
+            const result = await apiCall('vector_normalize', {v});
+            showResult('mag-result', result);
+        }
+
+        async function calcMatrix(op) {
+            const m1 = parseMatrix(document.getElementById('mat-a').value);
+            const m2 = parseMatrix(document.getElementById('mat-b').value);
+            let result;
+            if (op === 'add') {
+                result = await apiCall('matrix_add', {m1, m2});
+            } else if (op === 'multiply') {
+                result = await apiCall('matrix_multiply', {m1, m2});
+            }
+            showResult('matrix-result', result);
+        }
+
+        async function calcTranspose() {
+            const m = parseMatrix(document.getElementById('trans-m').value);
+            const result = await apiCall('matrix_transpose', {m});
+            showResult('trans-result', result);
+        }
+
+        async function calcDeterminant() {
+            const m = parseMatrix(document.getElementById('det-m').value);
+            const result = await apiCall('matrix_determinant', {m});
+            showResult('det-result', result);
+        }
+
+        async function calcInverse() {
+            const m = parseMatrix(document.getElementById('inv-m').value);
+            const result = await apiCall('matrix_inverse', {m});
+            showResult('inv-result', result);
+        }
+
+        async function calcSystem() {
+            const A = parseMatrix(document.getElementById('sys-a').value);
+            const b = parseVector(document.getElementById('sys-b').value);
+            const result = await apiCall('solve_system', {A, b});
+            showResult('sys-result', result);
+        }
+
+        async function calcGaussian() {
+            const A = parseMatrix(document.getElementById('gauss-a').value);
+            const b = parseVector(document.getElementById('gauss-b').value);
+            const result = await apiCall('solve_system', {A, b});
+            showResult('gauss-result', result);
+        }
+
+        async function calcEigenvalues() {
+            const m = parseMatrix(document.getElementById('eigen-m').value);
+            const result = await apiCall('eigenvalues', {m});
+            showResult('eigen-result', result);
+        }
+
+        // Initialize
+        renderLesson();
+    </script>
+</body>
+</html>

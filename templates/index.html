@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Algebra Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="btn-close"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+            </div>
+            <div class="terminal-title">linear-algebra-tutor — bash</div>
+        </div>
+
+        <div class="terminal-body">
+            <div class="output">
+                <pre class="ascii-art">
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║  📐 Linear Algebra Tutor                                                     ║
+║  Belajar Linear Algebra Step-by-Step                                         ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+                </pre>
+
+                <div class="prompt-line">
+                    <span class="prompt">$</span>
+                    <span class="command">cat menu.txt</span>
+                </div>
+
+                <div class="menu-container">
+                    <table class="menu-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Menu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category, lesson in lessons.items() %}
+                            <tr class="menu-item" onclick="window.location='/lesson/{{ category }}/{{ lesson.topics[0].id }}'">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ lesson.title }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="menu-item" onclick="showQuiz()">
+                                <td>{{ lessons|length + 1 }}</td>
+                                <td>🎯 Quick Quiz</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="quiz-section" class="hidden">
+                    <div class="prompt-line">
+                        <span class="prompt">$</span>
+                        <span class="command">./quick_quiz.sh</span>
+                    </div>
+                    <div class="quiz-content">
+                        <!-- Quiz content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <span class="prompt">user@linear-algebra:~$</span>
+                <span class="cursor">█</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
