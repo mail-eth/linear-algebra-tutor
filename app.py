@@ -194,6 +194,11 @@ def health():
     return jsonify({'status': 'ok'})
 
 
+@app.route('/playground')
+def playground():
+    return render_template('playground.html')
+
+
 @app.route('/lesson/<category>/<topic>')
 def lesson(category, topic):
     if category not in LESSONS:

@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground - Tutor Aljabar Linear</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/terminal.css') }}">
+    <style>
+        .playground-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .canvas-section {
+            background: #0a0a0a;
+            border: 1px solid #2d2d2d;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .canvas-section h3 {
+            color: #00d4ff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #2d2d2d;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        #vectorCanvas {
+            display: block;
+            width: 100%;
+            cursor: crosshair;
+        }
+        .canvas-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .canvas-controls button {
+            background: #1a1a2e;
+            color: #00ff41;
+            border: 1px solid #2d2d2d;
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+        .canvas-controls button:hover {
+            background: #00ff41;
+            color: #0a0a0a;
+        }
+        .canvas-controls button.active {
+            background: #00ff41;
+            color: #0a0a0a;
+        }
+        .vector-list {
+            margin-top: 10px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .vector-entry {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 12px;
+        }
+        .vector-entry .v-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .vector-entry .v-name {
+            color: #ffbd2e;
+            min-width: 30px;
+        }
+        .vector-entry .v-val {
+            color: #8b8b8b;
+        }
+        .vector-entry .v-del {
+            color: #ff5f56;
+            cursor: pointer;
+            margin-left: auto;
+            font-size: 14px;
+        }
+        .vector-entry .v-del:hover {
+            color: #ff3b30;
+        }
+
+        /* Sandbox */
+        .sandbox-section {
+            background: #0a0a0a;
+            border: 1px solid #2d2d2d;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .sandbox-section h3 {
+            color: #00d4ff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .sandbox-output {
+            min-height: 200px;
+            max-height: 350px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 10px;
+            background: #0d1117;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+        .sandbox-output::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sandbox-output::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        .sandbox-output::-webkit-scrollbar-thumb {
+            background: #4a4a6a;
+            border-radius: 3px;
+        }
+        .sb-line {
+            margin: 2px 0;
+        }
+        .sb-input {
+            color: #00d4ff;
+        }
+        .sb-result {
+            color: #00ff41;
+            padding-left: 20px;
+        }
+        .sb-error {
+            color: #ff5f56;
+            padding-left: 20px;
+        }
+        .sb-info {
+            color: #8b8b8b;
+            padding-left: 20px;
+        }
+        .sb-system {
+            color: #ffbd2e;
+        }
+        .sandbox-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0d1117;
+            border: 1px solid #2d2d2d;
+            border-radius: 3px;
+            padding: 8px 12px;
+        }
+        .sandbox-input-row .prompt {
+            flex-shrink: 0;
+        }
+        #sandboxInput {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #00d4ff;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+        .help-box {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1a1a2e;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #8b8b8b;
+            line-height: 1.6;
+        }
+        .help-box code {
+            color: #00ff41;
+            background: #0a0a0a;
+            padding: 1px 4px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .canvas-controls button {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .sandbox-output {
+                min-height: 150px;
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="btn-close" onclick="window.location='/'"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+            </div>
+            <div class="terminal-title">playground — tutor-aljabar-linear</div>
+        </div>
+
+        <div class="terminal-body">
+            <div class="output">
+                <div class="prompt-line">
+                    <span class="prompt">$</span>
+                    <span class="command">cd ~/playground</span>
+                    <a href="/" class="nav-link">[kembali ke beranda]</a>
+                </div>
+
+                <div class="playground-layout">
+                    <!-- Canvas Section -->
+                    <div class="canvas-section">
+                        <h3>▸ Canvas Vektor 2D</h3>
+                        <div class="canvas-wrapper">
+                            <canvas id="vectorCanvas" width="800" height="400"></canvas>
+                        </div>
+                        <div class="canvas-controls">
+                            <button onclick="addVectorPrompt()">+ Vektor</button>
+                            <button onclick="canvasRotatePrompt()">Rotasi ↻</button>
+                            <button onclick="canvasScalePrompt()">Skala ×</button>
+                            <button id="gridToggle" onclick="toggleGrid()" class="active">Grid</button>
+                            <button id="labelToggle" onclick="toggleLabels()" class="active">Label</button>
+                            <button onclick="resetCanvas()">Reset</button>
+                        </div>
+                        <div class="vector-list" id="vectorList"></div>
+                    </div>
+
+                    <div class="separator">═══════════════════════════════════════════════════════════════════════════════</div>
+
+                    <!-- Sandbox Section -->
+                    <div class="sandbox-section">
+                        <h3>▸ Sandbox — Ketik Operasi Bebas</h3>
+                        <div class="sandbox-output" id="sandboxOutput">
+                            <div class="sb-line sb-system">Selamat datang di Playground Aljabar Linear!</div>
+                            <div class="sb-line sb-info">Ketik operasi untuk mulai. Contoh: <code style="color:#00ff41;background:#0a0a0a;padding:1px 4px;border-radius:2px;">A = [[1,2],[3,4]]</code></div>
+                            <div class="sb-line sb-info">Ketik <code style="color:#00ff41;background:#0a0a0a;padding:1px 4px;border-radius:2px;">help</code> untuk melihat semua perintah.</div>
+                        </div>
+                        <div class="sandbox-input-row">
+                            <span class="prompt">user@playground:~$</span>
+                            <input type="text" id="sandboxInput" placeholder="ketik di sini..." autocomplete="off" autofocus>
+                        </div>
+                        <div class="help-box">
+                            <strong>Panduan Cepat:</strong><br>
+                            <code>A = [[1,2],[3,4]]</code> definisi matriks &nbsp;|&nbsp;
+                            <code>v = [3, 4]</code> definisi vektor &nbsp;|&nbsp;
+                            <code>det(A)</code> determinan &nbsp;|&nbsp;
+                            <code>inv(A)</code> invers &nbsp;|&nbsp;
+                            <code>T(A)</code> transpose<br>
+                            <code>A * B</code> kali &nbsp;|&nbsp;
+                            <code>A + B</code> tambah &nbsp;|&nbsp;
+                            <code>A - B</code> kurang &nbsp;|&nbsp;
+                            <code>eigen(A)</code> eigenvalue &nbsp;|&nbsp;
+                            <code>rank(A)</code> rank<br>
+                            <code>solve(A, b)</code> selesaikan Ax=b &nbsp;|&nbsp;
+                            <code>norm(v)</code> panjang vektor &nbsp;|&nbsp;
+                            <code>dot(u, v)</code> dot product &nbsp;|&nbsp;
+                            <code>cross(u, v)</code> cross product<br>
+                            <code>vars</code> lihat semua variabel &nbsp;|&nbsp;
+                            <code>draw(v)</code> gambar vektor di canvas &nbsp;|&nbsp;
+                            <code>clear</code> bersihkan sandbox &nbsp;|&nbsp;
+                            <code>help</code> bantuan lengkap
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <span class="prompt">user@playground:~$</span>
+                <span class="cursor">█</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ==============================
+    // MATH ENGINE (Client-Side)
+    // ==============================
+
+    const vars = {};
+
+    function parseMatrix(str) {
+        str = str.trim();
+        // [[1,2],[3,4]]
+        const rows = [];
+        const inner = str.slice(1, -1); // remove outer []
+        let depth = 0, start = 1;
+        for (let i = 0; i < inner.length; i++) {
+            if (inner[i] === '[') depth++;
+            if (inner[i] === ']') depth--;
+            if (inner[i] === ',' && depth === 0) {
+                rows.push(inner.slice(start, i));
+                start = i + 1;
+            }
+        }
+        rows.push(inner.slice(start));
+        return rows.map(r => {
+            const s = r.replace('[', '').replace(']', '').trim();
+            return s.split(',').map(x => parseFloat(x.trim()));
+        });
+    }
+
+    function parseVector(str) {
+        str = str.trim();
+        if (str.startsWith('[') && str.endsWith(']')) {
+            const inner = str.slice(1, -1);
+            return inner.split(',').map(x => parseFloat(x.trim()));
+        }
+        return null;
+    }
+
+    function isMatrix(v) {
+        return Array.isArray(v) && v.length > 0 && Array.isArray(v[0]);
+    }
+
+    function isVector(v) {
+        return Array.isArray(v) && v.length > 0 && !Array.isArray(v[0]);
+    }
+
+    function formatVal(v) {
+        if (isMatrix(v)) {
+            return '[' + v.map(row => '[' + row.map(x => fmtNum(x)).join(', ') + ']').join(', ') + ']';
+        }
+        if (isVector(v)) {
+            return '[' + v.map(x => fmtNum(x)).join(', ') + ']';
+        }
+        if (typeof v === 'number') {
+            return fmtNum(v);
+        }
+        if (typeof v === 'string') return v;
+        return JSON.stringify(v);
+    }
+
+    function fmtNum(n) {
+        if (Number.isInteger(n)) return n.toString();
+        return parseFloat(n.toFixed(4)).toString();
+    }
+
+    function matMul(a, b) {
+        const m = a.length, n = a[0].length, p = b[0].length;
+        if (n !== b.length) throw new Error('Ukuran tidak cocok: kolom A (' + n + ') ≠ baris B (' + b.length + ')');
+        const c = Array.from({length: m}, () => Array(p).fill(0));
+        for (let i = 0; i < m; i++)
+            for (let j = 0; j < p; j++)
+                for (let k = 0; k < n; k++)
+                    c[i][j] += a[i][k] * b[k][j];
+        return c;
+    }
+
+    function matAdd(a, b) {
+        if (a.length !== b.length || a[0].length !== b[0].length)
+            throw new Error('Ukuran matriks berbeda');
+        return a.map((row, i) => row.map((x, j) => x + b[i][j]));
+    }
+
+    function matSub(a, b) {
+        if (a.length !== b.length || a[0].length !== b[0].length)
+            throw new Error('Ukuran matriks berbeda');
+        return a.map((row, i) => row.map((x, j) => x - b[i][j]));
+    }
+
+    function matTranspose(m) {
+        return m[0].map((_, j) => m.map(row => row[j]));
+    }
+
+    function matDet(m) {
+        const n = m.length;
+        if (n !== m[0].length) throw new Error('Matriks harus persegi');
+        if (n === 1) return m[0][0];
+        if (n === 2) return m[0][0]*m[1][1] - m[0][1]*m[1][0];
+        if (n === 3) {
+            return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
+                 - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
+                 + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+        }
+        // LU decomposition for larger
+        let det = 1;
+        const a = m.map(r => [...r]);
+        for (let i = 0; i < n; i++) {
+            let maxRow = i;
+            for (let k = i+1; k < n; k++)
+                if (Math.abs(a[k][i]) > Math.abs(a[maxRow][i])) maxRow = k;
+            [a[i], a[maxRow]] = [a[maxRow], a[i]];
+            det *= a[i][i];
+            if (Math.abs(a[i][i]) < 1e-12) return 0;
+            for (let k = i+1; k < n; k++) {
+                const f = a[k][i] / a[i][i];
+                for (let j = i; j < n; j++) a[k][j] -= f * a[i][j];
+            }
+        }
+        return det;
+    }
+
+    function matInv(m) {
+        const n = m.length;
+        if (n !== m[0].length) throw new Error('Matriks harus persegi');
+        const aug = m.map((row, i) => [...row, ...Array.from({length: n}, (_, j) => i === j ? 1 : 0)]);
+        for (let i = 0; i < n; i++) {
+            let maxRow = i;
+            for (let k = i+1; k < n; k++)
+                if (Math.abs(aug[k][i]) > Math.abs(aug[maxRow][i])) maxRow = k;
+            [aug[i], aug[maxRow]] = [aug[maxRow], aug[i]];
+            if (Math.abs(aug[i][i]) < 1e-12) throw new Error('Matriks singular, tidak punya invers');
+            const pivot = aug[i][i];
+            for (let j = 0; j < 2*n; j++) aug[i][j] /= pivot;
+            for (let k = 0; k < n; k++) {
+                if (k === i) continue;
+                const f = aug[k][i];
+                for (let j = 0; j < 2*n; j++) aug[k][j] -= f * aug[i][j];
+            }
+        }
+        return aug.map(row => row.slice(n));
+    }
+
+    function matRank(m) {
+        const a = m.map(r => [...r]);
+        const rows = a.length, cols = a[0].length;
+        let rank = 0;
+        for (let col = 0, row = 0; col < cols && row < rows; col++) {
+            let pivot = row;
+            for (let i = row+1; i < rows; i++)
+                if (Math.abs(a[i][col]) > Math.abs(a[pivot][col])) pivot = i;
+            if (Math.abs(a[pivot][col]) < 1e-12) continue;
+            [a[row], a[pivot]] = [a[pivot], a[row]];
+            const val = a[row][col];
+            for (let j = col; j < cols; j++) a[row][j] /= val;
+            for (let i = 0; i < rows; i++) {
+                if (i === row) continue;
+                const f = a[i][col];
+                for (let j = col; j < cols; j++) a[i][j] -= f * a[row][j];
+            }
+            rank++;
+        }
+        return rank;
+    }
+
+    function matEigen(m) {
+        const n = m.length;
+        if (n !== m[0].length) throw new Error('Matriks harus persegi');
+        if (n === 2) {
+            const a = m[0][0], b = m[0][1], c = m[1][0], d = m[1][1];
+            const tr = a + d;
+            const det = a*d - b*c;
+            const disc = tr*tr - 4*det;
+            let l1, l2;
+            if (disc >= 0) {
+                l1 = (tr + Math.sqrt(disc)) / 2;
+                l2 = (tr - Math.sqrt(disc)) / 2;
+            } else {
+                const real = tr / 2;
+                const imag = Math.sqrt(-disc) / 2;
+                return {
+                    eigenvalues: [`${fmtNum(real)}+${fmtNum(imag)}i`, `${fmtNum(real)}-${fmtNum(imag)}i`],
+                    eigenvectors: ['(kompleks)', '(kompleks)']
+                };
+            }
+            const vecs = [];
+            for (const l of [l1, l2]) {
+                const aml = [[a-l, b],[c, d-l]];
+                let vx, vy;
+                if (Math.abs(aml[0][0]) > 1e-12 || Math.abs(aml[0][1]) > 1e-12) {
+                    if (Math.abs(aml[0][0]) > 1e-12) {
+                        vy = 1;
+                        vx = -aml[0][1] / aml[0][0];
+                    } else {
+                        vx = 1;
+                        vy = 0;
+                    }
+                } else {
+                    vx = 1; vy = 0;
+                }
+                const mag = Math.sqrt(vx*vx + vy*vy);
+                vecs.push(`[${fmtNum(vx/mag)}, ${fmtNum(vy/mag)}]`);
+            }
+            return { eigenvalues: [fmtNum(l1), fmtNum(l2)], eigenvectors: vecs };
+        }
+        if (n === 3) {
+            // Characteristic polynomial for 3x3
+            const a = m[0][0], b = m[0][1], c = m[0][2];
+            const d = m[1][0], e = m[1][1], f = m[1][2];
+            const g = m[2][0], h = m[2][1], i = m[2][2];
+            const tr = a + e + i;
+            const det = matDet(m);
+            const cof00 = e*i - f*h, cof11 = a*i - c*g, cof22 = a*e - b*d;
+            const sumCof = cof00 + cof11 + cof22;
+            // λ³ - trλ² + sumCofλ - det = 0
+            // Use Newton's method to find roots
+            const roots = [];
+            const fPoly = l => l*l*l - tr*l*l + sumCof*l - det;
+            const dfPoly = l => 3*l*l - 2*tr*l + sumCof;
+            for (let guess = -10; guess <= 10; guess += 0.5) {
+                let x = guess;
+                for (let iter = 0; iter < 50; iter++) {
+                    const fx = fPoly(x);
+                    const dfx = dfPoly(x);
+                    if (Math.abs(dfx) < 1e-15) break;
+                    x = x - fx / dfx;
+                }
+                let isNew = true;
+                for (const r of roots) {
+                    if (Math.abs(r - x) < 0.001) { isNew = false; break; }
+                }
+                if (isNew && Math.abs(fPoly(x)) < 0.01) roots.push(parseFloat(x.toFixed(4)));
+            }
+            roots.sort((a,b) => a - b);
+            return {
+                eigenvalues: roots.map(r => fmtNum(r)),
+                eigenvectors: roots.map(l => `(A-${fmtNum(l)}I)v=0`)
+            };
+        }
+        throw new Error('Hanya mendukung matriks 2×2 dan 3×3');
+    }
+
+    function solveSystem(A, b) {
+        const n = A.length;
+        if (n !== A[0].length) throw new Error('A harus matriks persegi');
+        if (n !== b.length) throw new Error('Ukuran b tidak cocok');
+        const aug = A.map((row, i) => [...row, b[i]]);
+        for (let i = 0; i < n; i++) {
+            let maxRow = i;
+            for (let k = i+1; k < n; k++)
+                if (Math.abs(aug[k][i]) > Math.abs(aug[maxRow][i])) maxRow = k;
+            [aug[i], aug[maxRow]] = [aug[maxRow], aug[i]];
+            if (Math.abs(aug[i][i]) < 1e-12) throw new Error('Sistem tidak punya solusi unik');
+            for (let k = i+1; k < n; k++) {
+                const f = aug[k][i] / aug[i][i];
+                for (let j = i; j <= n; j++) aug[k][j] -= f * aug[i][j];
+            }
+        }
+        const x = Array(n).fill(0);
+        for (let i = n-1; i >= 0; i--) {
+            x[i] = aug[i][n];
+            for (let j = i+1; j < n; j++) x[i] -= aug[i][j] * x[j];
+            x[i] /= aug[i][i];
+        }
+        return x;
+    }
+
+    function vecNorm(v) {
+        return Math.sqrt(v.reduce((s, x) => s + x*x, 0));
+    }
+
+    function vecDot(a, b) {
+        if (a.length !== b.length) throw new Error('Ukuran vektor berbeda');
+        return a.reduce((s, x, i) => s + x*b[i], 0);
+    }
+
+    function vecCross(a, b) {
+        if (a.length !== 3 || b.length !== 3) throw new Error('Cross product butuh vektor 3D');
+        return [
+            a[1]*b[2] - a[2]*b[1],
+            a[2]*b[0] - a[0]*b[2],
+            a[0]*b[1] - a[1]*b[0]
+        ];
+    }
+
+    // ==============================
+    // CANVAS ENGINE
+    // ==============================
+
+    const canvas = document.getElementById('vectorCanvas');
+    const ctx = canvas.getContext('2d');
+    let canvasVectors = [];
+    let showGrid = true;
+    let showLabels = true;
+    let scale = 40; // pixels per unit
+    const colors = ['#00ff41', '#00d4ff', '#ffbd2e', '#ff5f56', '#bd93f9', '#50fa7b', '#ff79c6', '#8be9fd'];
+
+    function resizeCanvas() {
+        const wrapper = canvas.parentElement;
+        const w = wrapper.clientWidth;
+        const h = Math.min(400, w * 0.5);
+        canvas.width = w;
+        canvas.height = h;
+        drawCanvas();
+    }
+
+    function drawCanvas() {
+        const w = canvas.width, h = canvas.height;
+        const cx = w / 2, cy = h / 2;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Grid
+        if (showGrid) {
+            ctx.strokeStyle = '#1a1a2e';
+            ctx.lineWidth = 1;
+            for (let x = cx % scale; x < w; x += scale) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+            }
+            for (let y = cy % scale; y < h; y += scale) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+            }
+        }
+
+        // Axes
+        ctx.strokeStyle = '#2d2d2d';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, h); ctx.stroke();
+
+        // Axis labels
+        ctx.fillStyle = '#4a4a6a';
+        ctx.font = '11px JetBrains Mono, monospace';
+        for (let i = -Math.floor(cx/scale); i <= Math.floor(cx/scale); i++) {
+            if (i === 0) continue;
+            ctx.fillText(i, cx + i * scale - 4, cy + 15);
+        }
+        for (let i = -Math.floor(cy/scale); i <= Math.floor(cy/scale); i++) {
+            if (i === 0) continue;
+            ctx.fillText(-i, cx + 5, cy + i * scale + 4);
+        }
+        ctx.fillStyle = '#8b8b8b';
+        ctx.fillText('0', cx + 5, cy + 15);
+
+        // Vectors
+        canvasVectors.forEach((v, idx) => {
+            const color = v.color || colors[idx % colors.length];
+            const ex = cx + v.values[0] * scale;
+            const ey = cy - v.values[1] * scale;
+
+            // Arrow line
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ex, ey); ctx.stroke();
+
+            // Arrowhead
+            const angle = Math.atan2(ey - cy, ex - cx);
+            const headLen = 12;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - headLen * Math.cos(angle - 0.4), ey - headLen * Math.sin(angle - 0.4));
+            ctx.lineTo(ex - headLen * Math.cos(angle + 0.4), ey - headLen * Math.sin(angle + 0.4));
+            ctx.closePath();
+            ctx.fill();
+
+            // Label
+            if (showLabels) {
+                ctx.fillStyle = color;
+                ctx.font = 'bold 13px JetBrains Mono, monospace';
+                ctx.fillText(v.name, ex + 8, ey - 8);
+            }
+        });
+    }
+
+    function addCanvasVector(name, values) {
+        canvasVectors.push({
+            name: name,
+            values: values,
+            color: colors[canvasVectors.length % colors.length]
+        });
+        updateVectorList();
+        drawCanvas();
+    }
+
+    function removeCanvasVector(idx) {
+        canvasVectors.splice(idx, 1);
+        updateVectorList();
+        drawCanvas();
+    }
+
+    function updateVectorList() {
+        const list = document.getElementById('vectorList');
+        if (canvasVectors.length === 0) {
+            list.innerHTML = '';
+            return;
+        }
+        list.innerHTML = canvasVectors.map((v, i) => `
+            <div class="vector-entry">
+                <span class="v-color" style="background:${v.color}"></span>
+                <span class="v-name">${v.name}</span>
+                <span class="v-val">= [${v.values.map(x => fmtNum(x)).join(', ')}]</span>
+                <span class="v-del" onclick="removeCanvasVector(${i})">×</span>
+            </div>
+        `).join('');
+    }
+
+    function toggleGrid() {
+        showGrid = !showGrid;
+        document.getElementById('gridToggle').classList.toggle('active', showGrid);
+        drawCanvas();
+    }
+
+    function toggleLabels() {
+        showLabels = !showLabels;
+        document.getElementById('labelToggle').classList.toggle('active', showLabels);
+        drawCanvas();
+    }
+
+    function resetCanvas() {
+        canvasVectors = [];
+        updateVectorList();
+        drawCanvas();
+    }
+
+    function addVectorPrompt() {
+        const name = prompt('Nama vektor (contoh: v1):', 'v' + (canvasVectors.length + 1));
+        if (!name) return;
+        const vals = prompt('Komponen (contoh: 3, 4):', '3, 4');
+        if (!vals) return;
+        const components = vals.split(',').map(x => parseFloat(x.trim()));
+        if (components.length < 2 || components.some(isNaN)) {
+            alert('Masukkan minimal 2 angka, pisahkan dengan koma');
+            return;
+        }
+        addCanvasVector(name, components);
+    }
+
+    function canvasRotatePrompt() {
+        if (canvasVectors.length === 0) { alert('Belum ada vektor di canvas'); return; }
+        const deg = prompt('Sudut rotasi (derajat, positif = CCW):', '45');
+        if (!deg) return;
+        const theta = parseFloat(deg) * Math.PI / 180;
+        const cos = Math.cos(theta), sin = Math.sin(theta);
+        canvasVectors.forEach(v => {
+            const [x, y] = v.values;
+            v.values = [x * cos - y * sin, x * sin + y * cos];
+        });
+        updateVectorList();
+        drawCanvas();
+    }
+
+    function canvasScalePrompt() {
+        if (canvasVectors.length === 0) { alert('Belum ada vektor di canvas'); return; }
+        const k = prompt('Faktor skala:', '2');
+        if (!k) return;
+        const factor = parseFloat(k);
+        canvasVectors.forEach(v => {
+            v.values = v.values.map(x => x * factor);
+        });
+        updateVectorList();
+        drawCanvas();
+    }
+
+    // ==============================
+    // SANDBOX ENGINE
+    // ==============================
+
+    const outputEl = document.getElementById('sandboxOutput');
+    const inputEl = document.getElementById('sandboxInput');
+    const cmdHistory = [];
+    let historyIdx = -1;
+
+    function sbPrint(text, cls = '') {
+        const div = document.createElement('div');
+        div.className = 'sb-line ' + cls;
+        div.textContent = text;
+        outputEl.appendChild(div);
+        outputEl.scrollTop = outputEl.scrollHeight;
+    }
+
+    function sbPrintHTML(html, cls = '') {
+        const div = document.createElement('div');
+        div.className = 'sb-line ' + cls;
+        div.innerHTML = html;
+        outputEl.appendChild(div);
+        outputEl.scrollTop = outputEl.scrollHeight;
+    }
+
+    function executeCommand(cmd) {
+        cmd = cmd.trim();
+        if (!cmd) return;
+
+        sbPrint('user@playground:~$ ' + cmd, 'sb-input');
+        cmdHistory.unshift(cmd);
+        historyIdx = -1;
+
+        try {
+            const result = evalCommand(cmd);
+            if (result !== undefined && result !== null) {
+                sbPrint('→ ' + formatVal(result), 'sb-result');
+            }
+        } catch (e) {
+            sbPrint('Error: ' + e.message, 'sb-error');
+        }
+    }
+
+    function evalCommand(cmd) {
+        // help
+        if (cmd === 'help') {
+            sbPrintHTML(
+                '<strong>Perintah yang tersedia:</strong><br>' +
+                '<code style="color:#00ff41">A = [[1,2],[3,4]]</code> — definisi matriks<br>' +
+                '<code style="color:#00ff41">v = [3, 4]</code> — definisi vektor<br>' +
+                '<code style="color:#00ff41">det(A)</code> — determinan<br>' +
+                '<code style="color:#00ff41">inv(A)</code> — invers matriks<br>' +
+                '<code style="color:#00ff41">T(A)</code> — transpose<br>' +
+                '<code style="color:#00ff41">A * B</code> — perkalian matriks<br>' +
+                '<code style="color:#00ff41">A + B</code> / <code style="color:#00ff41">A - B</code> — tambah/kurang<br>' +
+                '<code style="color:#00ff41">eigen(A)</code> — eigenvalue & eigenvector<br>' +
+                '<code style="color:#00ff41">rank(A)</code> — rank matriks<br>' +
+                '<code style="color:#00ff41">solve(A, b)</code> — selesaikan Ax=b<br>' +
+                '<code style="color:#00ff41">norm(v)</code> — panjang vektor<br>' +
+                '<code style="color:#00ff41">dot(u, v)</code> — dot product<br>' +
+                '<code style="color:#00ff41">cross(u, v)</code> — cross product (3D)<br>' +
+                '<code style="color:#00ff41">draw(v)</code> — gambar vektor di canvas<br>' +
+                '<code style="color:#00ff41">vars</code> — lihat semua variabel<br>' +
+                '<code style="color:#00ff41">clear</code> — bersihkan sandbox<br>' +
+                '<code style="color:#00ff41">scale</code> — ubah skala canvas'
+            , 'sb-info');
+            return null;
+        }
+
+        // clear
+        if (cmd === 'clear') {
+            outputEl.innerHTML = '';
+            return null;
+        }
+
+        // vars
+        if (cmd === 'vars') {
+            const keys = Object.keys(vars);
+            if (keys.length === 0) {
+                sbPrint('Belum ada variabel.', 'sb-info');
+                return null;
+            }
+            keys.forEach(k => {
+                sbPrint(k + ' = ' + formatVal(vars[k]), 'sb-info');
+            });
+            return null;
+        }
+
+        // scale
+        if (cmd === 'scale') {
+            const s = prompt('Skala canvas (pixel per unit):', scale);
+            if (s) { scale = parseInt(s); drawCanvas(); }
+            return null;
+        }
+
+        // Assignment: name = value
+        const assignMatch = cmd.match(/^([a-zA-Z_]\w*)\s*=\s*(.+)$/);
+        if (assignMatch) {
+            const name = assignMatch[1];
+            const valStr = assignMatch[2].trim();
+            const val = parseValue(valStr);
+            vars[name] = val;
+            sbPrint(name + ' = ' + formatVal(val), 'sb-result');
+            return null;
+        }
+
+        // Function calls
+        const result = evalExpr(cmd);
+        return result;
+    }
+
+    function parseValue(s) {
+        s = s.trim();
+        // Matrix: [[1,2],[3,4]]
+        if (s.startsWith('[[')) return parseMatrix(s);
+        // Vector: [1, 2]
+        if (s.startsWith('[')) return parseVector(s);
+        // Number
+        if (!isNaN(Number(s))) return Number(s);
+        // Variable reference
+        if (vars[s] !== undefined) return vars[s];
+        throw new Error('Tidak bisa parse: ' + s);
+    }
+
+    function resolveVar(s) {
+        s = s.trim();
+        if (s.startsWith('[[')) return parseMatrix(s);
+        if (s.startsWith('[')) return parseVector(s);
+        if (!isNaN(Number(s))) return Number(s);
+        if (vars[s] !== undefined) return vars[s];
+        throw new Error('Variabel tidak ditemukan: ' + s);
+    }
+
+    function evalExpr(expr) {
+        expr = expr.trim();
+
+        // det(X)
+        let m = expr.match(/^det\((.+)\)$/);
+        if (m) { return matDet(resolveVar(m[1])); }
+
+        // inv(X)
+        m = expr.match(/^inv\((.+)\)$/);
+        if (m) { return matInv(resolveVar(m[1])); }
+
+        // T(X)
+        m = expr.match(/^T\((.+)\)$/);
+        if (m) { return matTranspose(resolveVar(m[1])); }
+
+        // rank(X)
+        m = expr.match(/^rank\((.+)\)$/);
+        if (m) { return matRank(resolveVar(m[1])); }
+
+        // eigen(X)
+        m = expr.match(/^eigen\((.+)\)$/);
+        if (m) {
+            const res = matEigen(resolveVar(m[1]));
+            sbPrint('Nilai Eigen: ' + res.eigenvalues.join(', '), 'sb-result');
+            res.eigenvectors.forEach((v, i) => {
+                sbPrint('  v' + (i+1) + ' = ' + v, 'sb-result');
+            });
+            return null;
+        }
+
+        // norm(X)
+        m = expr.match(/^norm\((.+)\)$/);
+        if (m) { return vecNorm(resolveVar(m[1])); }
+
+        // dot(X, Y)
+        m = expr.match(/^dot\((.+),\s*(.+)\)$/);
+        if (m) { return vecDot(resolveVar(m[1]), resolveVar(m[2])); }
+
+        // cross(X, Y)
+        m = expr.match(/^cross\((.+),\s*(.+)\)$/);
+        if (m) { return vecCross(resolveVar(m[1]), resolveVar(m[2])); }
+
+        // solve(A, b)
+        m = expr.match(/^solve\((.+),\s*(.+)\)$/);
+        if (m) {
+            const result = solveSystem(resolveVar(m[1]), resolveVar(m[2]));
+            return result;
+        }
+
+        // draw(X) - draw vector to canvas
+        m = expr.match(/^draw\((.+)\)$/);
+        if (m) {
+            const v = resolveVar(m[1]);
+            if (isVector(v)) {
+                addCanvasVector(m[1], v);
+                sbPrint('Vektor ' + m[1] + ' digambar di canvas', 'sb-info');
+                return null;
+            }
+            throw new Error('draw() hanya untuk vektor');
+        }
+
+        // A * B or A · B
+        m = expr.match(/^(.+?)\s*[*·]\s*(.+)$/);
+        if (m) {
+            const a = resolveVar(m[1]), b = resolveVar(m[2]);
+            if (isMatrix(a) && isMatrix(b)) return matMul(a, b);
+            if (isMatrix(a) && isVector(b)) {
+                // matrix * vector
+                const result = matMul(a, b.map(x => [x]));
+                return result.map(r => r[0]);
+            }
+            if (isVector(a) && isVector(b)) return vecDot(a, b);
+            if (typeof a === 'number' || typeof b === 'number') {
+                if (isMatrix(b)) return b.map(row => row.map(x => a * x));
+                if (isVector(b)) return b.map(x => a * x);
+                if (isMatrix(a)) return a.map(row => row.map(x => x * b));
+                if (isVector(a)) return a.map(x => x * b);
+                return a * b;
+            }
+            throw new Error('Operasi tidak didukung untuk tipe ini');
+        }
+
+        // A + B
+        m = expr.match(/^(.+?)\s*\+\s*(.+)$/);
+        if (m) {
+            const a = resolveVar(m[1]), b = resolveVar(m[2]);
+            if (isMatrix(a) && isMatrix(b)) return matAdd(a, b);
+            if (isVector(a) && isVector(b)) return a.map((x, i) => x + b[i]);
+            if (typeof a === 'number' && typeof b === 'number') return a + b;
+            throw new Error('Operasi + tidak didukung untuk tipe ini');
+        }
+
+        // A - B
+        m = expr.match(/^(.+?)\s*-\s*(.+)$/);
+        if (m) {
+            const a = resolveVar(m[1]), b = resolveVar(m[2]);
+            if (isMatrix(a) && isMatrix(b)) return matSub(a, b);
+            if (isVector(a) && isVector(b)) return a.map((x, i) => x - b[i]);
+            if (typeof a === 'number' && typeof b === 'number') return a - b;
+            throw new Error('Operasi - tidak didukung untuk tipe ini');
+        }
+
+        // Scalar * var
+        m = expr.match(/^(\d+\.?\d*)\s*\*\s*(.+)$/);
+        if (m) {
+            const k = parseFloat(m[1]);
+            const v = resolveVar(m[2]);
+            if (isMatrix(v)) return v.map(row => row.map(x => k * x));
+            if (isVector(v)) return v.map(x => k * x);
+            return k * v;
+        }
+
+        // Just a variable name
+        if (vars[expr] !== undefined) return vars[expr];
+
+        throw new Error('Perintah tidak dikenali. Ketik "help" untuk bantuan.');
+    }
+
+    // Input handler
+    inputEl.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const cmd = inputEl.value;
+            inputEl.value = '';
+            executeCommand(cmd);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (historyIdx < cmdHistory.length - 1) {
+                historyIdx++;
+                inputEl.value = cmdHistory[historyIdx];
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (historyIdx > 0) {
+                historyIdx--;
+                inputEl.value = cmdHistory[historyIdx];
+            } else {
+                historyIdx = -1;
+                inputEl.value = '';
+            }
+        }
+    });
+
+    // Init
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    </script>
+</body>
+</html>
